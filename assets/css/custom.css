@@ -157,7 +157,28 @@ main {
 	justify-content: flex-start;
 }
 
+/* Style for wp_page_menu fallback */
+#page ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+#page li {
+	display: inline-block;
+}
+
 .primary-navigation .menu-item a {
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
+	transition: color 0.3s ease;
+}
+
+#page a {
 	color: #333;
 	text-decoration: none;
 	font-size: 14px;
