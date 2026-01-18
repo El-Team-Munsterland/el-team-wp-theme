@@ -148,3 +148,29 @@ H6 {
 .navi-left {
         FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
 }
+/* Navigation fix - display menu items horizontally */
+.primary-navigation .menu {
+	display: flex !important;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.primary-navigation .menu-item {
+	display: inline-block !important;
+}
+
+.primary-navigation .menu-item > a {
+	display: inline !important;
+}
+
+/* Override default list styles for navigation */
+.primary-navigation ul {
+	display: flex !important;
+	flex-wrap: wrap;
+	gap: 20px;
+	list-style: none !important;
+}
+
+.primary-navigation li {
+	display: inline-block !important;
+}
