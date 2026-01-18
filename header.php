@@ -15,13 +15,13 @@
 	<?php wp_body_open(); ?>
 
 	<header id="masthead" class="site-header">
-		<div class="site-header__top">
-			<div class="site-branding">
-				<?php
-				if ( function_exists( 'the_custom_logo' ) ) {
-					the_custom_logo();
-				}
-				?>
+		<div class="site-branding">
+			<?php
+			if ( function_exists( 'the_custom_logo' ) ) {
+				the_custom_logo();
+			}
+			?>
+			<div class="site-header-content">
 				<div class="site-title-wrapper">
 					<h1 class="site-title">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
@@ -32,12 +32,10 @@
 						<?php bloginfo( 'description' ); ?>
 					</p>
 				</div>
-			</div>
-		</div>
 
-		<div class="site-header__bottom">
-			<?php
-			get_template_part( 'template-parts/header/navigation' );
-			?>
+				<?php
+				get_template_part( 'template-parts/header/navigation' );
+				?>
+			</div>
 		</div>
 	</header>
