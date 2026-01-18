@@ -8,6 +8,11 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<style>
+		.primary-navigation ul { display: flex !important; list-style: none !important; margin: 0 !important; padding: 0 !important; gap: 20px; flex-wrap: wrap; }
+		.primary-navigation li { display: inline-block !important; }
+		.primary-navigation .menu { display: flex !important; }
+	</style>
 	<?php wp_head(); ?>
 </head>
 
