@@ -33,9 +33,14 @@
 					</p>
 				</div>
 
-				<?php
-				get_template_part( 'template-parts/header/navigation' );
-				?>
+				<div class="site-header-bottom">
+					<?php
+					get_template_part( 'template-parts/header/navigation' );
+					?>
+					<div class="site-search">
+						<?php get_search_form(); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 	</header>
