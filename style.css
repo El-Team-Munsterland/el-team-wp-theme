@@ -1,0 +1,150 @@
+/*
+Theme Name: El Team Münsterland Theme
+Theme URI: https://github.com/yourusername/el-team-wp-theme
+Author: Lukas Nacke
+Author URI: https://el-team-muensterland.de
+Description: Ein WordPress Theme für das El Team
+Version: 1.0.0
+Requires at least: 5.0
+Requires PHP: 7.4
+License: GPL v3
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: el-team-theme
+Domain Path: /languages
+Tags: responsive, modern, custom-colors, custom-header, custom-logo
+
+This theme, like WordPress, is licensed under the GPL.
+*/
+body {
+  margin: 0;
+  padding: 0;
+}
+A:link {
+        COLOR: #000000; TEXT-DECORATION: underline
+}
+A:visited {
+        COLOR: #8000FF; TEXT-DECORATION: underline
+}
+A:active {
+        COLOR: #000000; TEXT-DECORATION: none
+}
+A:hover {
+        COLOR: #8000FF; TEXT-DECORATION: underline
+}
+BODY {
+        background-color: #FFEC73; FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+BODY.logo {
+         Background-color: #ffffff;
+}
+DIV {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+P {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+TABLE {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+TD {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+TR {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+LI {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+OL {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+UL {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+FORM {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+opxion {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+SELECT {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+INPUT {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+BR {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+B {
+        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+}
+H1 {
+        FONT-SIZE: 24px
+}
+H2 {
+        FONT-WEIGHT: bold; FONT-SIZE: 20px
+}
+H3 {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px
+}
+H4 {
+        FONT-WEIGHT: bold; FONT-SIZE: 16px
+}
+H5 {
+        FONT-WEIGHT: bold; FONT-SIZE: 14px
+}
+H6 {
+        FONT-WEIGHT: bold; FONT-SIZE: 12px
+}
+.size6 {
+        FONT-SIZE: 12px
+}
+.size7 {
+        FONT-SIZE: 13px
+}
+.size8 {
+        FONT-SIZE: 14px
+}
+.size9 {
+        FONT-SIZE: 15px
+}
+.size10 {
+        FONT-SIZE: 14px
+}
+.size11 {
+        FONT-SIZE: 17px
+}
+.size12 {
+        FONT-SIZE: 18px
+}
+.size13 {
+        FONT-SIZE: 19px
+}
+.size14 {
+        FONT-SIZE: 20px
+}
+.size15 {
+        FONT-SIZE: 21px
+}
+.size16 {
+        FONT-SIZE: 22px
+}
+.size18 {
+        FONT-SIZE: 24px
+}
+.lauf-txt {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
+}
+.navi {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
+}
+.ueb-txt {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff; FONT-FAMILY: Verdana
+}
+.ueb-navi {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff; FONT-FAMILY: Verdana
+}
+.navi-left {
+        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
+}
