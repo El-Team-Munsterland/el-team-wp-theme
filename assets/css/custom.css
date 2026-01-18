@@ -19,7 +19,7 @@ body {
 
 .site-branding {
 	display: flex;
-	align-items: flex-start;
+	align-items: stretch;
 	gap: 30px;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -28,7 +28,8 @@ body {
 .site-branding img,
 .custom-logo {
 	max-width: 150px;
-	height: auto;
+	height: 100%;
+	object-fit: contain;
 	display: block;
 	flex-shrink: 0;
 }
@@ -41,7 +42,7 @@ body {
 }
 
 .site-title-wrapper {
-	text-align: center;
+	text-align: left;
 }
 
 .site-title {
@@ -101,7 +102,7 @@ main {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 20px;
-	justify-content: center;
+	justify-content: flex-start;
 }
 
 .primary-navigation .menu-item a {
