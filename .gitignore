@@ -1,3 +1,19 @@
+# Ignore deploy script (do not commit credentials or local deploy tools)
+deploy-to-xampp.ps1
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node / build
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
 # OS
 .DS_Store
 Thumbs.db
