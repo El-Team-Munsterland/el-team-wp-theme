@@ -47,7 +47,11 @@ get_header();
                 ?>
                 <tr>
                     <td style="padding:8px; vertical-align:top; border-bottom:1px solid #f0f0f0;"><?php echo esc_html(get_the_date("d.m.Y")); ?></td>
-                    <td style="padding:8px; vertical-align:top; border-bottom:1px solid #f0f0f0;"><a href="<?php echo esc_url(get_permalink()); ?>"><?php echo esc_html(get_the_title()); ?></a></td>
+                    <td style="padding:8px; vertical-align:top; border-bottom:1px solid #f0f0f0;">
+                        <a href="<?php echo esc_url(get_permalink()); ?>">
+                            <?php echo el_team_replace_title_prefix_with_logo( get_the_title() ); ?>
+                        </a>
+                    </td>
                 </tr>
                 <?php
             endwhile;
