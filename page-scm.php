@@ -1,7 +1,7 @@
 <?php
 /*
-Template Name: Presse Übersicht
-Description: Listet alle Beiträge vom Typ 'presse' in einer Tabelle (Datum, Titel).
+Template Name: Solarchallenge Übersicht
+Description: Listet alle Beiträge vom Typ 'solarchallenge' in einer Tabelle (Datum, Titel).
 */
 get_header();
 ?>
@@ -19,7 +19,7 @@ get_header();
         <tbody>
         <?php
         $presse_query = new WP_Query(array(
-            'category_name' => 'presse',
+            'category_name' => 'solarchallenge',
             'posts_per_page' => -1,
             'orderby' => 'date',
             'order' => 'DESC',
@@ -58,7 +58,7 @@ get_header();
         else :
             ?>
             <tr>
-                <td colspan="2" style="padding:8px;">Keine Beiträge vom Typ &quot;presse&quot; gefunden.</td>
+                <td colspan="2" style="padding:8px;">Keine Beiträge vom Typ &quot;Solarchallenge&quot; gefunden.</td>
             </tr>
             <?php
         endif;
