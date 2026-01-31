@@ -1,7 +1,5 @@
 # el-team-wp-theme
 The Wordpress Theme which is used at the el-team Website
-
-
 /*
 Theme Name: el-team-wp-theme
 Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme

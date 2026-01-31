@@ -287,3 +287,29 @@ article:last-child {
 		margin: 20px auto;
 	}
 }
+/* Search Results - Floating Thumbnail */
+.search-post-thumbnail {
+	float: left;
+	margin-right: 25px;
+	margin-bottom: 15px;
+	width: 280px;
+	flex-shrink: 0;
+}
+
+.search-post-thumbnail img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	width: 100%;
+}
+
+.search-post-thumbnail a {
+	display: block;
+}
+
+/* Clearfix for search articles */
+article.search::after {
+	content: '';
+	display: table;
+	clear: both;
+}

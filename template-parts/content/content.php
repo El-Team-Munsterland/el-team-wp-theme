@@ -36,7 +36,7 @@
 		the_content(
 			sprintf(
 				wp_kses(
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'el-team-theme' ),
+					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'el-team-wp-theme' ),
 					array(
 						'span' => array(
 											'class' => array(),
@@ -53,7 +53,7 @@
 		<?php
 		$categories = get_the_category();
 		if ( ! empty( $categories ) ) {
-			echo '<span class="cat-links">' . esc_html__( 'Categories: ', 'el-team-theme' );
+			echo '<span class="cat-links">' . esc_html__( 'Categories: ', 'el-team-wp-theme' );
 			echo wp_kses_post( implode( ', ', array_map( 'the_category', $categories ) ) );
 			echo '</span>';
 		}

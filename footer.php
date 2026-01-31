@@ -18,7 +18,7 @@
 				<p class="site-footer__copyright">
 					&copy; <?php echo date( 'Y' ); ?> 
 					<?php bloginfo( 'name' ); ?>. 
-					<?php esc_html_e( 'All rights reserved.', 'el-team-theme' ); ?>
+					<?php esc_html_e( 'All rights reserved.', 'el-team-wp-theme' ); ?>
 				</p>
 			</div>
 		</div>

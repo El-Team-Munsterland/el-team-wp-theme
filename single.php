@@ -19,7 +19,7 @@ get_header();
                         <span class="posted-on">
                             <?php
                             printf(
-                                esc_html_x( 'Veröffentlicht: %s', 'post date', 'el-team-theme' ),
+                                esc_html_x( 'Veröffentlicht: %s', 'post date', 'el-team-wp-theme' ),
                                 '<time class="entry-date published" datetime="' . esc_attr( get_the_date( 'c' ) ) . '">' . esc_html( get_the_date() ) . '</time>'
                             );
                             ?>
@@ -38,7 +38,7 @@ get_header();
                     the_content();
                     wp_link_pages(
                         array(
-                            'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'el-team-theme' ),
+                            'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'el-team-wp-theme' ),
                             'after'  => '</div>',
                         )
                     );
@@ -54,8 +54,8 @@ get_header();
             // Navigation zwischen Posts (optional)
             the_post_navigation(
                 array(
-                    'prev_text' => esc_html__( '&larr; Vorheriger Beitrag', 'el-team-theme' ),
-                    'next_text' => esc_html__( 'Nächster Beitrag &rarr;', 'el-team-theme' ),
+                    'prev_text' => esc_html__( '&larr; Vorheriger Beitrag', 'el-team-wp-theme' ),
+                    'next_text' => esc_html__( 'Nächster Beitrag &rarr;', 'el-team-wp-theme' ),
                 )
             );
         }

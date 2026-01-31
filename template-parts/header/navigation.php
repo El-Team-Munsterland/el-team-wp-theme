@@ -4,7 +4,7 @@
  */
 
 ?>
-<nav class="site-navigation primary-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'el-team-theme' ); ?>">
+<nav class="site-navigation primary-navigation" aria-label="<?php esc_attr_e( 'Primary Menu', 'el-team-wp-theme' ); ?>">
 	<?php
 	wp_nav_menu( array(
 		'theme_location'  => 'primary',
