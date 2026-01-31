@@ -32,6 +32,7 @@ add_action( 'after_setup_theme', 'el_team_setup_theme' );
  */
 function el_team_get_presselogo_map() {
 	return array(
+		'hallo'  => 'hallo.png',
 		'wmtv'  => 'wmtv.png',
 		'wn'  => 'wn.png',
 		'az'  => 'az.png',
