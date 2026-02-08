@@ -96,14 +96,23 @@ function el_team_enqueue_admin_scripts( $hook ) {
 		}
 		
 		.el-team-image-preview {
+			width: 120px;
+			height: 120px;
 			display: flex;
-			gap: 10px;
 			align-items: center;
+			justify-content: center;
+			background: #f5f5f5;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			padding: 5px;
+			box-sizing: border-box;
 		}
 		
 		.el-team-image-preview img {
-			border-radius: 4px;
-			border: 1px solid #ddd;
+			max-width: 100%;
+			max-height: 100%;
+			object-fit: contain;
+			border-radius: 2px;
 		}
 		
 		#el-team-add-link {
