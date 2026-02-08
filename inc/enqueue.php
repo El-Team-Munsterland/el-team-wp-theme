@@ -96,7 +96,7 @@ function el_team_enqueue_admin_scripts( $hook ) {
 		}
 		
 		.el-team-image-preview {
-			width: 120px;
+			width: 100%;
 			height: 120px;
 			display: flex;
 			align-items: center;

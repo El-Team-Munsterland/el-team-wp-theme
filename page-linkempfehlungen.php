@@ -30,10 +30,12 @@ get_header();
                 <div class="el-team-link-card">
                     <?php if ( ! empty( $link['image_id'] ) ) : ?>
                         <div class="el-team-link-logo">
-                            <?php echo wp_get_attachment_image( $link['image_id'], array( 120, 120 ), false, array(
-                                'class' => 'el-team-link-logo-img',
-                                'alt'   => esc_attr( isset( $link['title'] ) ? $link['title'] : '' ),
-                            ) ); ?>
+                            <?php 
+                            $image_src = wp_get_attachment_image_src( $link['image_id'], 'full' );
+                            if ( $image_src ) {
+                                echo '<img src="' . esc_url( $image_src[0] ) . '" class="el-team-link-logo-img" alt="' . esc_attr( isset( $link['title'] ) ? $link['title'] : '' ) . '" />';
+                            }
+                            ?>
                         </div>
                     <?php endif; ?>
                     
@@ -84,7 +86,7 @@ get_header();
                 text-align: center;
                 margin-bottom: 15px;
                 height: 120px;
-                width: 120px;
+                width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
