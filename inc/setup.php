@@ -259,36 +259,14 @@ function el_team_render_link_recommendations_meta_box( $post ) {
 					</p>
 					
 					<p>
-						<label for="el_team_link_category_${nextIndex}">
-							<?php esc_html_e( 'Kategorie (optional):', 'el-team-wp-theme' ); ?>
-						</label><br>
-						<input type="text" id="el_team_link_category_${nextIndex}" 
-							   name="el_team_links[${nextIndex}][category]" 
-							   placeholder="<?php esc_attr_e( 'z.B. Dokumentation, Tools, etc.', 'el-team-wp-theme' ); ?>"
-							   style="width:100%;" />
-					</p>
-					
-					<p>
-						<label for="el_team_link_category_order_${nextIndex}">
-							<?php esc_html_e( 'Kategoriereihenfolge:', 'el-team-wp-theme' ); ?>
-						</label><br>
-						<input type="number" id="el_team_link_category_order_${nextIndex}" 
-							   name="el_team_links[${nextIndex}][category_order]" 
-							   value="0" 
-							   min="0" 
-							   style="width:100px;" />
-						<span class="hint"><?php esc_html_e( '(kleinere Nummern zuerst)', 'el-team-wp-theme' ); ?></span>
-					</p>
-					
-					<p>
 						<label for="el_team_link_order_${nextIndex}">
-							<?php esc_html_e( 'Reihenfolge in Kategorie:', 'el-team-wp-theme' ); ?>
+							<?php esc_html_e( 'Reihenfolge:', 'el-team-wp-theme' ); ?>
 						</label><br>
 						<input type="number" id="el_team_link_order_${nextIndex}" 
-							   name="el_team_links[${nextIndex}][link_order]" 
-							   value="0" 
-							   min="0" 
-							   style="width:100px;" />
+							 name="el_team_links[${nextIndex}][link_order]" 
+							 value="0" 
+							 min="0" 
+							 style="width:100px;" />
 						<span class="hint"><?php esc_html_e( '(kleinere Nummern zuerst)', 'el-team-wp-theme' ); ?></span>
 					</p>
 					
@@ -367,8 +345,7 @@ function el_team_save_link_recommendations( $post_id ) {
 	// Sanitize the links
 	$sanitized_links = array();
 	foreach ( $links as $link ) {
-		if ( ! empty( $link['title'] ) || ! empty( $link['url'] ) ) {
-			$category = isset( $link['category'] ) ? $link['category'] : '';
+			if ( ! empty( $link['title'] ) || ! empty( $link['url'] ) ) {
 			$sanitized_links[] = array(
 			'title'       => sanitize_text_field( isset( $link['title'] ) ? $link['title'] : '' ),
 			'url'         => esc_url_raw( isset( $link['url'] ) ? $link['url'] : '' ),
