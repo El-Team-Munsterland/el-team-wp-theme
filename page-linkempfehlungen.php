@@ -84,17 +84,23 @@ get_header();
                 text-align: center;
                 margin-bottom: 15px;
                 height: 120px;
+                width: 120px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 background: #f9f9f9;
+                border: 1px solid #e0e0e0;
                 border-radius: 4px;
+                padding: 5px;
+                box-sizing: border-box;
             }
             
             .el-team-link-logo-img {
                 max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                width: auto;
                 height: auto;
-                max-height: 120px;
             }
             
             .el-team-link-title {
