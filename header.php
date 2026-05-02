@@ -38,14 +38,17 @@
 					</p>
 				</div>
 
-				<div class="site-header-bottom">
+				<div class="site-navigation-top">
 					<?php
 					get_template_part( 'template-parts/header/navigation' );
 					?>
-					<div class="site-search">
-						<?php get_search_form(); ?>
-					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="site-header-bottom">
+			<div class="site-search">
+				<?php get_search_form(); ?>
 			</div>
 		</div>
 	</header>

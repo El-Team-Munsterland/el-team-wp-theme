@@ -102,3 +102,51 @@ function el_team_get_werkstattberichte_for_fahrzeug( $fahrzeug_id ) {
 	) );
 }
 
+/**
+ * Prüft, ob die aktuelle Seite Unterseiten hat.
+ *
+ * @return bool True wenn Unterseiten existieren, false sonst.
+ */
+function el_team_has_subpages() {
+	if ( ! is_page() ) {
+		return false;
+	}
+
+	global $post;
+	if ( ! $post ) {
+		return false;
+	}
+
+	$subpages = get_pages( array(
+		'child_of'    => $post->ID,
+		'post_type'   => 'page',
+		'post_status' => 'publish',
+	) );
+
+	return ! empty( $subpages );
+}
+
+/**
+ * Gibt eine Liste der Unterseiten der aktuellen Seite zurück.
+ *
+ * @return array Array von Unterseiten-Objekten.
+ */
+function el_team_get_subpages() {
+	if ( ! is_page() ) {
+		return array();
+	}
+
+	global $post;
+	if ( ! $post ) {
+		return array();
+	}
+
+	return get_pages( array(
+		'child_of'    => $post->ID,
+		'post_type'   => 'page',
+		'post_status' => 'publish',
+		'sort_column' => 'menu_order,post_title',
+		'sort_order'  => 'ASC',
+	) );
+}
+

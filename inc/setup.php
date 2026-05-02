@@ -152,6 +152,21 @@ function el_team_register_custom_post_types() {
 }
 add_action( 'init', 'el_team_register_custom_post_types' );
 
+// Meta Box für Fahrzeug-Status als Dropdown
+add_action( 'add_meta_boxes', 'el_team_add_fahrzeug_status_meta_box' );
+add_action( 'save_post_fahrzeug', 'el_team_save_fahrzeug_status_meta_box' );
+
+// Admin-Spalte für Fahrzeug-Status
+add_filter( 'manage_fahrzeug_posts_columns', 'el_team_add_fahrzeug_status_column' );
+add_action( 'manage_fahrzeug_posts_custom_column', 'el_team_fahrzeug_status_column_content', 10, 2 );
+
+// Admin-Spalte für Werkstattbericht -> Fahrzeug Zuordnung
+add_filter( 'manage_werkstattbericht_posts_columns', 'el_team_add_werkstattbericht_fahrzeug_column' );
+add_action( 'manage_werkstattbericht_posts_custom_column', 'el_team_werkstattbericht_fahrzeug_column_content', 10, 2 );
+
+// Admin Styles für Fahrzeug-Status
+add_action( 'admin_head', 'el_team_add_admin_styles' );
+
 /**
  * Register meta box for Werkstattbericht -> Fahrzeug Zuordnung
  */
@@ -228,6 +243,155 @@ function el_team_save_werkstattbericht_meta_box( $post_id ) {
     }
 }
 add_action( 'save_post_werkstattbericht', 'el_team_save_werkstattbericht_meta_box' );
+
+/**
+ * Meta Box für Fahrzeug-Status als Dropdown
+ */
+function el_team_add_fahrzeug_status_meta_box() {
+    add_meta_box(
+        'fahrzeug_status_meta_box',
+        esc_html__( 'Fahrzeug-Status', 'el-team-wp-theme' ),
+        'el_team_fahrzeug_status_meta_box_callback',
+        'fahrzeug',
+        'side',
+        'default'
+    );
+}
+
+/**
+ * Callback für Fahrzeug-Status Meta Box
+ */
+function el_team_fahrzeug_status_meta_box_callback( $post ) {
+    wp_nonce_field( 'fahrzeug_status_meta_box', 'fahrzeug_status_meta_box_nonce' );
+
+    $status = get_post_meta( $post->ID, '_fahrzeug_status', true );
+    // Standardwert für neue Fahrzeuge
+    if ( empty( $status ) ) {
+        $status = 'aktiv';
+    }
+    ?>
+    <p>
+        <label for="fahrzeug_status"><?php esc_html_e( 'Status:', 'el-team-wp-theme' ); ?></label>
+    </p>
+    <select name="fahrzeug_status" id="fahrzeug_status" style="width: 100%;">
+        <option value="aktiv" <?php selected( $status, 'aktiv' ); ?>><?php esc_html_e( 'Aktiv', 'el-team-wp-theme' ); ?></option>
+        <option value="inaktiv" <?php selected( $status, 'inaktiv' ); ?>><?php esc_html_e( 'Inaktiv', 'el-team-wp-theme' ); ?></option>
+    </select>
+    <p class="description">
+        <?php esc_html_e( 'Aktiv: Fahrzeug ist noch im Besitz. Inaktiv: Fahrzeug ist nicht mehr vorhanden oder verschrottet.', 'el-team-wp-theme' ); ?>
+    </p>
+    <?php
+}
+
+/**
+ * Speichere Fahrzeug-Status Meta Box
+ */
+function el_team_save_fahrzeug_status_meta_box( $post_id ) {
+    if ( ! isset( $_POST['fahrzeug_status_meta_box_nonce'] ) ) {
+        return;
+    }
+
+    if ( ! wp_verify_nonce( $_POST['fahrzeug_status_meta_box_nonce'], 'fahrzeug_status_meta_box' ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    if ( isset( $_POST['fahrzeug_status'] ) ) {
+        $status = sanitize_text_field( $_POST['fahrzeug_status'] );
+        update_post_meta( $post_id, '_fahrzeug_status', $status );
+    }
+}
+
+/**
+ * Füge Status-Spalte zur Fahrzeug-Admin-Übersicht hinzu
+ */
+function el_team_add_fahrzeug_status_column( $columns ) {
+    $columns['fahrzeug_status'] = esc_html__( 'Status', 'el-team-wp-theme' );
+    return $columns;
+}
+
+/**
+ * Inhalt der Status-Spalte
+ */
+function el_team_fahrzeug_status_column_content( $column, $post_id ) {
+    if ( 'fahrzeug_status' === $column ) {
+        $status = get_post_meta( $post_id, '_fahrzeug_status', true );
+        if ( empty( $status ) ) {
+            $status = 'aktiv'; // Standardwert für bestehende Fahrzeuge ohne Status
+        }
+
+        $status_label = ( $status === 'aktiv' ) ? esc_html__( 'Aktiv', 'el-team-wp-theme' ) : esc_html__( 'Inaktiv', 'el-team-wp-theme' );
+        $status_class = ( $status === 'aktiv' ) ? 'fahrzeug-status-aktiv' : 'fahrzeug-status-inaktiv';
+
+        echo '<span class="' . esc_attr( $status_class ) . '">' . esc_html( $status_label ) . '</span>';
+    }
+}
+
+/**
+ * Admin Styles für Fahrzeug-Status hinzufügen
+ */
+function el_team_add_admin_styles() {
+    global $post_type;
+    if ( 'fahrzeug' === $post_type ) {
+        ?>
+        <style>
+            .fahrzeug-status-aktiv {
+                background-color: #d4edda;
+                color: #155724;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-weight: bold;
+                display: inline-block;
+            }
+            .fahrzeug-status-inaktiv {
+                background-color: #f8d7da;
+                color: #721c24;
+                padding: 2px 6px;
+                border-radius: 3px;
+                font-weight: bold;
+                display: inline-block;
+            }
+        </style>
+        <?php
+    }
+}
+
+/**
+ * Füge Fahrzeug-Spalte zur Werkstattbericht-Admin-Übersicht hinzu
+ */
+function el_team_add_werkstattbericht_fahrzeug_column( $columns ) {
+    $columns['zugeordnetes_fahrzeug'] = esc_html__( 'Fahrzeug', 'el-team-wp-theme' );
+    return $columns;
+}
+
+/**
+ * Inhalt der Fahrzeug-Spalte für Werkstattberichte
+ */
+function el_team_werkstattbericht_fahrzeug_column_content( $column, $post_id ) {
+    if ( 'zugeordnetes_fahrzeug' === $column ) {
+        $fahrzeug_id = get_post_meta( $post_id, '_el_team_werkstatt_fahrzeug_id', true );
+
+        if ( ! empty( $fahrzeug_id ) ) {
+            $fahrzeug = get_post( $fahrzeug_id );
+            if ( $fahrzeug ) {
+                $fahrzeug_title = get_the_title( $fahrzeug );
+                $edit_link = get_edit_post_link( $fahrzeug_id );
+                echo '<a href="' . esc_url( $edit_link ) . '" title="' . esc_attr__( 'Fahrzeug bearbeiten', 'el-team-wp-theme' ) . '">' . esc_html( $fahrzeug_title ) . '</a>';
+            } else {
+                echo '<span style="color: #999;">' . esc_html__( 'Fahrzeug nicht gefunden', 'el-team-wp-theme' ) . '</span>';
+            }
+        } else {
+            echo '<span style="color: #999;">' . esc_html__( 'Kein Fahrzeug zugeordnet', 'el-team-wp-theme' ) . '</span>';
+        }
+    }
+}
 
 /**
  * Register meta box for link recommendations
