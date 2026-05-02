@@ -153,6 +153,9 @@ get_header();
                 }
             }
         </style>
+    <?php else : ?>
+        <p><?php esc_html_e( 'Es sind noch keine Linkempfehlungen vorhanden.', 'el-team-wp-theme' ); ?></p>
+    <?php endif; ?>
     </main>
 
     <?php if ( el_team_has_subpages() ) get_sidebar(); ?>
