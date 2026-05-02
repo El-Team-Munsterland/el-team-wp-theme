@@ -23,7 +23,7 @@
 					<?php
 					$impressum_page = get_page_by_path( 'impressum' );
 					if ( $impressum_page ) {
-						echo '<a href="' . esc_url( get_permalink( $impressum_page->ID ) ) . '" class="site-footer__copyright-link">' . esc_html( 'Impressum' ) . '</a>';
+						echo '<a href="' . esc_url( get_permalink( $impressum_page->ID ) ) . '" class="site-footer__copyright-link">' . esc_html( 'Impressum' )  '</a>';
 					}
 					?>. 
 					<?php  ?>

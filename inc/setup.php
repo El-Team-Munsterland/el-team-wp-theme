@@ -93,6 +93,143 @@ function el_team_register_sidebars() {
 add_action( 'widgets_init', 'el_team_register_sidebars' );
 
 /**
+ * Register custom post types for Fahrzeuge and Werkstattberichte
+ */
+function el_team_register_custom_post_types() {
+    $fahrzeug_labels = array(
+        'name'                  => esc_html_x( 'Fahrzeuge', 'Post Type General Name', 'el-team-wp-theme' ),
+        'singular_name'         => esc_html_x( 'Fahrzeug', 'Post Type Singular Name', 'el-team-wp-theme' ),
+        'menu_name'             => esc_html__( 'Fahrzeuge', 'el-team-wp-theme' ),
+        'name_admin_bar'        => esc_html__( 'Fahrzeug', 'el-team-wp-theme' ),
+        'add_new'               => esc_html__( 'Neues Fahrzeug', 'el-team-wp-theme' ),
+        'add_new_item'          => esc_html__( 'Neues Fahrzeug hinzufügen', 'el-team-wp-theme' ),
+        'new_item'              => esc_html__( 'Neues Fahrzeug', 'el-team-wp-theme' ),
+        'edit_item'             => esc_html__( 'Fahrzeug bearbeiten', 'el-team-wp-theme' ),
+        'view_item'             => esc_html__( 'Fahrzeug ansehen', 'el-team-wp-theme' ),
+        'all_items'             => esc_html__( 'Alle Fahrzeuge', 'el-team-wp-theme' ),
+        'search_items'          => esc_html__( 'Fahrzeuge durchsuchen', 'el-team-wp-theme' ),
+        'not_found'             => esc_html__( 'Keine Fahrzeuge gefunden.', 'el-team-wp-theme' ),
+        'not_found_in_trash'    => esc_html__( 'Keine Fahrzeuge im Papierkorb gefunden.', 'el-team-wp-theme' ),
+    );
+
+    $fahrzeug_args = array(
+        'labels'             => $fahrzeug_labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'rewrite'            => array( 'slug' => 'fahrzeuge' ),
+        'show_in_rest'       => true,
+        'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
+        'menu_icon'          => 'dashicons-car',
+    );
+    register_post_type( 'fahrzeug', $fahrzeug_args );
+
+    $werkstatt_labels = array(
+        'name'                  => esc_html_x( 'Werkstattberichte', 'Post Type General Name', 'el-team-wp-theme' ),
+        'singular_name'         => esc_html_x( 'Werkstattbericht', 'Post Type Singular Name', 'el-team-wp-theme' ),
+        'menu_name'             => esc_html__( 'Werkstattberichte', 'el-team-wp-theme' ),
+        'name_admin_bar'        => esc_html__( 'Werkstattbericht', 'el-team-wp-theme' ),
+        'add_new'               => esc_html__( 'Neuen Bericht', 'el-team-wp-theme' ),
+        'add_new_item'          => esc_html__( 'Neuen Werkstattbericht hinzufügen', 'el-team-wp-theme' ),
+        'new_item'              => esc_html__( 'Neuer Werkstattbericht', 'el-team-wp-theme' ),
+        'edit_item'             => esc_html__( 'Werkstattbericht bearbeiten', 'el-team-wp-theme' ),
+        'view_item'             => esc_html__( 'Werkstattbericht ansehen', 'el-team-wp-theme' ),
+        'all_items'             => esc_html__( 'Alle Werkstattberichte', 'el-team-wp-theme' ),
+        'search_items'          => esc_html__( 'Werkstattberichte durchsuchen', 'el-team-wp-theme' ),
+        'not_found'             => esc_html__( 'Keine Werkstattberichte gefunden.', 'el-team-wp-theme' ),
+        'not_found_in_trash'    => esc_html__( 'Keine Werkstattberichte im Papierkorb gefunden.', 'el-team-wp-theme' ),
+    );
+
+    $werkstatt_args = array(
+        'labels'             => $werkstatt_labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'rewrite'            => array( 'slug' => 'werkstattberichte' ),
+        'show_in_rest'       => true,
+        'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'author', 'revisions' ),
+        'menu_icon'          => 'dashicons-hammer',
+    );
+    register_post_type( 'werkstattbericht', $werkstatt_args );
+}
+add_action( 'init', 'el_team_register_custom_post_types' );
+
+/**
+ * Register meta box for Werkstattbericht -> Fahrzeug Zuordnung
+ */
+function el_team_register_werkstattbericht_meta_box() {
+    add_meta_box(
+        'el_team_werkstatt_fahrzeug',
+        esc_html__( 'Zugehöriges Fahrzeug', 'el-team-wp-theme' ),
+        'el_team_render_werkstattbericht_meta_box',
+        'werkstattbericht',
+        'side',
+        'default'
+    );
+}
+add_action( 'add_meta_boxes', 'el_team_register_werkstattbericht_meta_box' );
+
+/**
+ * Render the Fahrzeug-Auswahl im Werkstattbericht-Editor
+ */
+function el_team_render_werkstattbericht_meta_box( $post ) {
+    wp_nonce_field( 'el_team_werkstatt_fahrzeug_nonce', 'el_team_werkstatt_fahrzeug_nonce' );
+
+    $selected_fahrzeug = get_post_meta( $post->ID, '_el_team_werkstatt_fahrzeug_id', true );
+    $fahrzeuge = get_posts( array(
+        'post_type'      => 'fahrzeug',
+        'numberposts'    => -1,
+        'orderby'        => 'title',
+        'order'          => 'ASC',
+        'post_status'    => 'publish',
+    ) );
+    ?>
+    <p>
+        <label for="el_team_werkstatt_fahrzeug_id"><?php esc_html_e( 'Wähle das zugehörige Fahrzeug:', 'el-team-wp-theme' ); ?></label>
+    </p>
+    <select name="el_team_werkstatt_fahrzeug_id" id="el_team_werkstatt_fahrzeug_id" style="width:100%;">
+        <option value=""><?php esc_html_e( 'Kein Fahrzeug auswählen', 'el-team-wp-theme' ); ?></option>
+        <?php foreach ( $fahrzeuge as $fahrzeug ) : ?>
+            <option value="<?php echo esc_attr( $fahrzeug->ID ); ?>" <?php selected( $selected_fahrzeug, $fahrzeug->ID ); ?>>
+                <?php echo esc_html( get_the_title( $fahrzeug ) ); ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <?php
+}
+
+/**
+ * Save the Fahrzeug-Zuordnung für Werkstattberichte
+ */
+function el_team_save_werkstattbericht_meta_box( $post_id ) {
+    if ( ! isset( $_POST['el_team_werkstatt_fahrzeug_nonce'] ) ) {
+        return;
+    }
+
+    if ( ! wp_verify_nonce( $_POST['el_team_werkstatt_fahrzeug_nonce'], 'el_team_werkstatt_fahrzeug_nonce' ) ) {
+        return;
+    }
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    if ( get_post_type( $post_id ) !== 'werkstattbericht' ) {
+        return;
+    }
+
+    $fahrzeug_id = isset( $_POST['el_team_werkstatt_fahrzeug_id'] ) ? absint( $_POST['el_team_werkstatt_fahrzeug_id'] ) : 0;
+    if ( $fahrzeug_id > 0 ) {
+        update_post_meta( $post_id, '_el_team_werkstatt_fahrzeug_id', $fahrzeug_id );
+    } else {
+        delete_post_meta( $post_id, '_el_team_werkstatt_fahrzeug_id' );
+    }
+}
+add_action( 'save_post_werkstattbericht', 'el_team_save_werkstattbericht_meta_box' );
+
+/**
  * Register meta box for link recommendations
  */
 function el_team_register_link_recommendations_meta_box() {

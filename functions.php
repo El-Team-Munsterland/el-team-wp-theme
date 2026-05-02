@@ -80,3 +80,25 @@ function el_team_replace_title_prefix_with_logo( $title ) {
 	return esc_html( $title );
 }
 
+/**
+ * Liefert Werkstattberichte für ein Fahrzeug zurück.
+ *
+ * @param int $fahrzeug_id Fahrzeug-Post-ID
+ * @return WP_Query
+ */
+function el_team_get_werkstattberichte_for_fahrzeug( $fahrzeug_id ) {
+	return new WP_Query( array(
+		'post_type'      => 'werkstattbericht',
+		'posts_per_page' => -1,
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+		'meta_query'     => array(
+			array(
+				'key'     => '_el_team_werkstatt_fahrzeug_id',
+				'value'   => absint( $fahrzeug_id ),
+				'compare' => '=',
+			),
+		),
+	) );
+}
+
