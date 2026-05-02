@@ -116,7 +116,6 @@ function el_team_register_custom_post_types() {
         'labels'             => $fahrzeug_labels,
         'public'             => true,
         'has_archive'        => true,
-        'rewrite'            => array( 'slug' => 'fahrzeuge' ),
         'show_in_rest'       => true,
         'supports'           => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
         'menu_icon'          => 'dashicons-car',
