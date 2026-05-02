@@ -37,8 +37,10 @@ function el_team_get_presselogo_map() {
 		'wn'  => 'wn.png',
 		'az'  => 'az.png',
 		'mlz' => 'mlz.png',
+		'rn' => 'rn.png',
 		// Weitere Präfixe können hier hinzugefügt werden
 		// 'prefix' => 'image.png',
+		// Die Bilder liegen unter EL_TEAM_THEME_URI . '/assets/images/presselogo/'
 	);
 }
 
