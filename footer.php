@@ -16,9 +16,16 @@
 
 			<div class="site-footer__bottom">
 				<p class="site-footer__copyright">
-					&copy; <?php echo date( 'Y' ); ?> 
-					<?php esc_html_e( 'All rights reserved.', 'el-team-wp-theme' ); ?>
-					<a href="impressum">Impressum</a>
+					&copy; <?php echo date( 'Y' );
+					bloginfo( 'name' );
+					esc_html_e( 'All rights reserved.', 'el-team-wp-theme' );?> 
+					<?php
+					$impressum_page = get_page_by_path( 'impressum' );
+					if ( $impressum_page ) {
+						echo '<a href="' . esc_url( get_permalink( $impressum_page->ID ) ) . '" class="site-footer__copyright-link">' . esc_html( 'Impressum' ) . '</a>';
+					}
+					?>. 
+					<?php  ?>
 				</p>
 			</div>
 		</div>
