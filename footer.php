@@ -17,8 +17,9 @@
 			<div class="site-footer__bottom">
 				<p class="site-footer__copyright">
 					&copy; <?php echo date( 'Y' );
+					echo ' ';
 					bloginfo( 'name' );
-					esc_html_e( 'All rights reserved.', 'el-team-wp-theme' );?> 
+					esc_html_e( ' All rights reserved.', 'el-team-wp-theme' );?> 
 					<?php
 					$impressum_page = get_page_by_path( 'impressum' );
 					if ( $impressum_page ) {
