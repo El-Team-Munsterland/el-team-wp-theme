@@ -19,6 +19,12 @@ require_once EL_TEAM_THEME_DIR . '/inc/setup.php';
 require_once EL_TEAM_THEME_DIR . '/inc/enqueue.php';
 
 /**
+ * Include theme custom functions
+ */
+require_once EL_TEAM_THEME_DIR . '/inc/seitenmatrix.php';
+require_once EL_TEAM_THEME_DIR . '/inc/theme-dokumentation.php';
+
+/**
  * Theme Setup
  */
 add_action( 'after_setup_theme', 'el_team_setup_theme' );
@@ -149,4 +155,3 @@ function el_team_get_subpages() {
 		'sort_order'  => 'ASC',
 	) );
 }
-
