@@ -1,17 +1,9 @@
 <?php
-/** Dokumentation für eigene Theme-Funktionen im WordPress-Adminbereich. */
+/** Theme-Dokumentation im WordPress-Administrationsbereich. */
 if (!defined('ABSPATH')) { exit; }
-
 add_action('admin_menu', function () {
-    add_theme_page(
-        'Theme-Dokumentation',
-        'Theme-Dokumentation',
-        'edit_theme_options',
-        'meine-theme-dokumentation',
-        'sm_theme_dokumentation_render'
-    );
+    add_theme_page('Theme-Dokumentation', 'Theme-Dokumentation', 'edit_theme_options', 'meine-theme-dokumentation', 'sm_theme_dokumentation_render');
 });
-
 if (!function_exists('sm_theme_dokumentation_render')) {
     function sm_theme_dokumentation_render() {
         if (!current_user_can('edit_theme_options')) { return; }
@@ -48,26 +40,25 @@ if (!function_exists('sm_theme_dokumentation_render')) {
             <p>Funktionen: <code>el_team_has_subpages</code>, <code>el_team_get_subpages</code>, <code>el_team_get_presselogo_map</code> und <code>el_team_replace_title_prefix_with_logo</code>.</p>
             <p>Technik: <code>functions.php</code>, <code>sidebar.php</code>, <code>page-presse.php</code>, <code>page-scm.php</code> und <code>page-werkstatt.php</code>.</p>
 
-            <h2>Hierarchische Seitenmatrix</h2>
-            <p>Zeigt die Unterseiten der aktuellen Seite horizontal nach Hierarchieebenen in einer Tabelle an. Die aktuelle Seite selbst wird nicht aufgelistet.</p>
-            <h3>Shortcodes</h3>
-            <p>Unterseiten der aktuellen Seite: <code>[seitenmatrix]</code></p>
-            <p>Unterseiten einer bestimmten Seite: <code>[seitenmatrix id="123"]</code></p>
-            <h3>Darstellung</h3>
-            <ul style="list-style:disc;padding-left:22px">
-                <li>Erste Spalte: direkte Unterseiten.</li>
-                <li>Weitere Spalten: Unter-Unterseiten und tiefere Ebenen.</li>
-                <li>Elternzellen überspannen die Zeilen aller Nachfahren (rowspan).</li>
-                <li>Endseiten füllen übrige Spalten (colspan).</li>
-                <li>Jede Seite ist auf ihre eigene URL verlinkt.</li>
-                <li>Seiten ohne veröffentlichte Unterseiten zeigen keine Tabelle.</li>
-            </ul>
-            <h3>Pflege der Seitenstruktur</h3>
-            <p>Unter <strong>Seiten → Alle Seiten</strong> lassen sich über die Einstellung <strong>Übergeordnete Seite</strong> die Hierarchie und über <strong>Reihenfolge</strong> die Sortierung festlegen. Bei gleicher Reihenfolge wird nach Titel sortiert.</p>
-            <h3>Technik und Funktionen</h3>
-            <p>PHP: <code>inc/seitenmatrix.php</code> – Shortcode: <code>seitenmatrix</code> – CSS: automatisch durch diese PHP-Datei eingebunden. Die Hilfsfunktionen <code>sm_build_tree</code>, <code>sm_leaf_count</code>, <code>sm_depth</code> und <code>sm_append_rows</code> erstellen den Seitenbaum und die Tabellenzeilen; <code>sm_seitenmatrix_shortcode</code> verarbeitet den Shortcode.</p>
-            <p>Dokumentationsseite: <code>inc/theme-dokumentation.php</code></p>
-            <p><strong>Hinweis:</strong> Die unterste Ebene wird derzeit als einzelne Tabellenzeilen dargestellt, nicht als Aufzählung in einer gemeinsamen Zelle.</p>
+            <h2>Seitenmatrix</h2>
+            <p>Zeigt veröffentlichte Unterseiten der aktuellen Seite horizontal in einer Tabelle. Die aktuelle Seite selbst erscheint nicht. Elternzellen überspannen ihre Nachfahren mittels <code>rowspan</code>.</p>
+            <h3>Gutenberg-Block</h3>
+            <p>Im Block-Editor auf <strong>+</strong> klicken, nach <strong>Seitenmatrix</strong> suchen und den Block einfügen. Rechts in den Blockeinstellungen lassen sich die maximale Anzeigetiefe und der Stil auswählen.</p>
+            <h3>Shortcode</h3>
+            <p><code>[seitenmatrix]</code> – alle Ebenen im Stil Werkstatthandbuch.</p>
+            <p><code>[seitenmatrix tiefe="2" stil="bilder"]</code> – zwei Ebenen mit Beitragsbildern und Kurztext.</p>
+            <p><code>[seitenmatrix id="123" tiefe="1"]</code> – direkte Unterseiten der Seite 123.</p>
+            <h3>Einstellungen</h3>
+            <table class="widefat striped" style="max-width:900px"><thead><tr><th>Einstellung</th><th>Werte</th><th>Standard</th></tr></thead><tbody>
+                <tr><td>Maximale Anzeigetiefe</td><td>0 = alle; 1 = Unterseiten; 2 = Unter-Unterseiten; usw.</td><td>0 (alle)</td></tr>
+                <tr><td>Stil</td><td><code>werkstatthandbuch</code> oder <code>bilder</code></td><td>werkstatthandbuch</td></tr>
+            </tbody></table>
+            <h3>Stil „Bilder und Kurztext“</h3>
+            <p>Zeigt das Beitragsbild (falls vorhanden), den Seitentitel und den manuellen Auszug. Falls kein Auszug hinterlegt ist, werden bis zu 24 Wörter aus dem Seiteninhalt verwendet. Ohne Beitragsbild erscheint nur Text.</p>
+            <h3>Seitenpflege</h3>
+            <p>Die Hierarchie unter <strong>Seiten → Alle Seiten</strong> über „Übergeordnete Seite“ festlegen. Die Sortierung folgt „Reihenfolge“, bei Gleichstand dem Titel. Es werden nur veröffentlichte Seiten angezeigt.</p>
+            <h3>Technische Dateien</h3>
+            <p><code>inc/seitenmatrix.php</code> (PHP und CSS), <code>assets/seitenmatrix-block.js</code> (Gutenberg-Block), <code>inc/theme-dokumentation.php</code> (diese Seite).</p>
         </div>
         <?php
     }
