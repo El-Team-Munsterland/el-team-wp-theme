@@ -5,7 +5,6 @@
  * Template Post Type: page
  */
 get_header();
-get_header();
 ?>
 <div class="content-wrapper <?php echo el_team_has_subpages() ? 'has-sidebar' : ''; ?>">
 	<main id="site-content" role="main" class="main-content">
@@ -222,4 +221,4 @@ get_header();
 	<?php if ( el_team_has_subpages() ) get_sidebar(); ?>
 </div>
 
-<?php get_footer(); get_footer();
+<?php get_footer();

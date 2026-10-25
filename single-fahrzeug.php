@@ -25,6 +25,14 @@ get_header();
                     );
                     ?>
                 </div>
+
+                <?php
+                // Steckbrief, Historie, Chronik und Unterlagen aus dem Plugin "CityEL Werkstatt"
+                // (die Werkstattberichte listet das Theme unten selbst).
+                if ( function_exists( 'cityel_the_vehicle_profile' ) ) {
+                    cityel_the_vehicle_profile( get_the_ID(), array( 'parts' => array( 'steckbrief', 'historie', 'chronik', 'unterlagen', 'papiere' ) ) );
+                }
+                ?>
             </article>
 
             <?php

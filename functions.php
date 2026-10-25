@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants
-define( 'EL_TEAM_THEME_VERSION', '1.0.0' );
+define( 'EL_TEAM_THEME_VERSION', '1.1.0' );
 define( 'EL_TEAM_THEME_DIR', get_template_directory() );
 define( 'EL_TEAM_THEME_URI', get_template_directory_uri() );
 
@@ -17,11 +17,11 @@ define( 'EL_TEAM_THEME_URI', get_template_directory_uri() );
  */
 require_once EL_TEAM_THEME_DIR . '/inc/setup.php';
 require_once EL_TEAM_THEME_DIR . '/inc/enqueue.php';
+require_once EL_TEAM_THEME_DIR . '/inc/plugin-compat.php';
 
 /**
  * Include theme custom functions
  */
-require_once EL_TEAM_THEME_DIR . '/inc/seitenmatrix.php';
 require_once EL_TEAM_THEME_DIR . '/inc/theme-dokumentation.php';
 
 /**
@@ -89,10 +89,16 @@ function el_team_replace_title_prefix_with_logo( $title ) {
 /**
  * Liefert Werkstattberichte für ein Fahrzeug zurück.
  *
+ * Die Daten (Inhaltstypen, Zuordnung) verwaltet das Plugin "CityEL Werkstatt";
+ * ohne Plugin wird direkt über das Meta-Feld abgefragt.
+ *
  * @param int $fahrzeug_id Fahrzeug-Post-ID
  * @return WP_Query
  */
 function el_team_get_werkstattberichte_for_fahrzeug( $fahrzeug_id ) {
+	if ( function_exists( 'cityel_vehicle_reports' ) ) {
+		return cityel_vehicle_reports( $fahrzeug_id );
+	}
 	return new WP_Query( array(
 		'post_type'      => 'werkstattbericht',
 		'posts_per_page' => -1,
@@ -106,6 +112,26 @@ function el_team_get_werkstattberichte_for_fahrzeug( $fahrzeug_id ) {
 			),
 		),
 	) );
+}
+
+/**
+ * Linkempfehlungen einer Seite, sortiert nach Reihenfolge.
+ *
+ * @param int $post_id Seiten-ID
+ * @return array
+ */
+function el_team_get_link_recommendations( $post_id ) {
+	if ( function_exists( 'cityel_link_recommendations' ) ) {
+		return cityel_link_recommendations( $post_id );
+	}
+	$links = get_post_meta( $post_id, '_el_team_links', true );
+	if ( empty( $links ) || ! is_array( $links ) ) {
+		return array();
+	}
+	usort( $links, function ( $a, $b ) {
+		return ( isset( $a['link_order'] ) ? (int) $a['link_order'] : 0 ) - ( isset( $b['link_order'] ) ? (int) $b['link_order'] : 0 );
+	} );
+	return $links;
 }
 
 /**

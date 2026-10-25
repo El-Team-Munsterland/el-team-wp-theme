@@ -4,7 +4,6 @@ Template Name: Presse Übersicht
 Description: Listet alle Beiträge vom Typ 'presse' in einer Tabelle (Datum, Titel).
 */
 get_header();
-get_header();
 ?>
 <div class="content-wrapper <?php echo el_team_has_subpages() ? 'has-sidebar' : ''; ?>">
     <main id="site-content" role="main" class="main-content">
@@ -74,5 +73,4 @@ get_header();
 </div>
 
 <?php
-get_footer();
 get_footer();

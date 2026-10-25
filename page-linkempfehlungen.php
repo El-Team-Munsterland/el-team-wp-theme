@@ -16,15 +16,9 @@ get_header();
     </div>
 
     <?php
-    $links = get_post_meta( get_the_ID(), '_el_team_links', true );
-    
-    if ( ! empty( $links ) && is_array( $links ) ) :
-        // Sort links by link_order
-        usort( $links, function( $a, $b ) {
-            $order_a = isset( $a['link_order'] ) ? $a['link_order'] : 0;
-            $order_b = isset( $b['link_order'] ) ? $b['link_order'] : 0;
-            return $order_a - $order_b;
-        } );
+    $links = el_team_get_link_recommendations( get_the_ID() );
+
+    if ( ! empty( $links ) ) :
         ?>
         <div class="el-team-links-grid">
             <?php foreach ( $links as $link ) : ?>

@@ -51,10 +51,10 @@
 
 	<footer class="entry-footer">
 		<?php
-		$categories = get_the_category();
-		if ( ! empty( $categories ) ) {
+		$categories = get_the_category_list( ', ' );
+		if ( $categories ) {
 			echo '<span class="cat-links">' . esc_html__( 'Categories: ', 'el-team-wp-theme' );
-			echo wp_kses_post( implode( ', ', array_map( 'the_category', $categories ) ) );
+			echo wp_kses_post( $categories );
 			echo '</span>';
 		}
 		?>
