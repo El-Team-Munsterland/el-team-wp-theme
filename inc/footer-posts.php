@@ -3,7 +3,8 @@
  * Footer mit den neuesten Beiträgen.
  *
  * Einstellungen unter Design → Footer: welche Inhaltstypen ausgelesen werden, wie viele
- * Beiträge erscheinen, die Überschrift und die Hintergrundfarbe des Footers.
+ * Beiträge erscheinen, aus welcher Kategorie immer ein Beitrag dabei ist, die Überschrift
+ * und die Hintergrundfarbe des Footers.
  * Ausgabe: template-parts/footer/latest-posts.php, Styles in assets/css/custom.css.
  */
 
@@ -36,6 +37,7 @@ function el_team_footer_defaults() {
 	return array(
 		'post_types' => array_values( array_diff( $post_types, array( 'page' ) ) ),
 		'count'      => 6,
+		'pinned_cat' => 'presse',
 		'title'      => __( 'Neueste Beiträge', 'el-team-wp-theme' ),
 		'bg_color'   => '#000000',
 	);
@@ -72,6 +74,9 @@ function el_team_footer_sanitize( $input ) {
 	$count = isset( $input['count'] ) ? absint( $input['count'] ) : $defaults['count'];
 	$count = max( 1, min( 24, $count ) );
 
+	// Slug der Kategorie, aus der immer ein Beitrag erscheint; leer = keine
+	$pinned_cat = isset( $input['pinned_cat'] ) ? sanitize_title( $input['pinned_cat'] ) : $defaults['pinned_cat'];
+
 	$title = isset( $input['title'] ) ? sanitize_text_field( $input['title'] ) : $defaults['title'];
 
 	$bg_color = isset( $input['bg_color'] ) ? sanitize_hex_color( $input['bg_color'] ) : '';
@@ -82,6 +87,7 @@ function el_team_footer_sanitize( $input ) {
 	return array(
 		'post_types' => $post_types,
 		'count'      => $count,
+		'pinned_cat' => $pinned_cat,
 		'title'      => $title,
 		'bg_color'   => $bg_color,
 	);
@@ -171,6 +177,25 @@ function el_team_footer_render_settings_page() {
 					</td>
 				</tr>
 				<tr>
+					<th scope="row"><label for="el-team-footer-pinned-cat"><?php esc_html_e( 'Immer dabei', 'el-team-wp-theme' ); ?></label></th>
+					<td>
+						<?php
+						wp_dropdown_categories( array(
+							'id'                => 'el-team-footer-pinned-cat',
+							'name'              => $name . '[pinned_cat]',
+							'taxonomy'          => 'category',
+							'value_field'       => 'slug',
+							'selected'          => $settings['pinned_cat'],
+							'hide_empty'        => false,
+							'hierarchical'      => true,
+							'show_option_none'  => __( '— keine —', 'el-team-wp-theme' ),
+							'option_none_value' => '',
+						) );
+						?>
+						<p class="description"><?php esc_html_e( 'Ist unter den neuesten Beiträgen keiner aus dieser Kategorie, ersetzt der neueste Beitrag der Kategorie den letzten Platz.', 'el-team-wp-theme' ); ?></p>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="el-team-footer-title"><?php esc_html_e( 'Überschrift', 'el-team-wp-theme' ); ?></label></th>
 					<td>
 						<input type="text" id="el-team-footer-title" name="<?php echo esc_attr( $name ); ?>[title]" value="<?php echo esc_attr( $settings['title'] ); ?>" class="regular-text">
@@ -194,6 +219,10 @@ function el_team_footer_render_settings_page() {
 /**
  * Neueste Beiträge aus den gewählten Inhaltstypen.
  *
+ * Ist unter ihnen keiner aus der Kategorie "Immer dabei" (Standard: presse), nimmt der
+ * neueste Beitrag dieser Kategorie den letzten Platz ein. Er ist älter als alle übrigen,
+ * die Reihenfolge nach Datum bleibt also erhalten.
+ *
  * @return WP_Query|null null, wenn kein (registrierter) Inhaltstyp gewählt ist
  */
 function el_team_footer_latest_posts() {
@@ -202,7 +231,7 @@ function el_team_footer_latest_posts() {
 	if ( empty( $post_types ) ) {
 		return null;
 	}
-	return new WP_Query( array(
+	$args  = array(
 		'post_type'           => $post_types,
 		'post_status'         => 'publish',
 		'posts_per_page'      => (int) $settings['count'],
@@ -211,7 +240,33 @@ function el_team_footer_latest_posts() {
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
 		'has_password'        => false,
-	) );
+	);
+	$query = new WP_Query( $args );
+
+	$pinned_cat = '' !== $settings['pinned_cat'] ? get_category_by_slug( $settings['pinned_cat'] ) : false;
+	if ( ! $pinned_cat ) {
+		return $query;
+	}
+	foreach ( $query->posts as $post ) {
+		if ( has_term( $pinned_cat->term_id, 'category', $post ) ) {
+			return $query;
+		}
+	}
+
+	$pinned = get_posts( array_merge( $args, array(
+		'posts_per_page' => 1,
+		'category__in'   => array( $pinned_cat->term_id ),
+	) ) );
+	if ( empty( $pinned ) ) {
+		return $query;
+	}
+	if ( count( $query->posts ) >= $args['posts_per_page'] ) {
+		array_pop( $query->posts );
+	}
+	$query->posts[]    = $pinned[0];
+	$query->post_count = count( $query->posts );
+
+	return $query;
 }
 
 /**

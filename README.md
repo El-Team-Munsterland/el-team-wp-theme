@@ -22,6 +22,10 @@ die Werkstattberichte im selben Stil wie Steckbrief und Chronik; steht der Block
 einer älteren Version) bleibt es bei den bisherigen Listen. „Weite/Volle Breite“ wirkt jetzt
 auch in den Seitenvorlagen (Fahrzeuge, Werkstatt, Presse, SCM, Linkempfehlungen).
 
+Ab 1.5 ist unter den Footer-Beiträgen immer der neueste aus einer wählbaren Kategorie
+(**Design → Footer → Immer dabei**, Standard: Presse). Ist unter den neuesten Beiträgen
+keiner aus der Kategorie, nimmt ihr neuester Beitrag den letzten Platz ein.
+
 
 /*
 Theme Name: el-team-wp-theme
