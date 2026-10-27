@@ -275,11 +275,7 @@ main {
 
 .site-footer__post-title {
 	margin: 0 0 10px;
-	font-size: 20px;
-	font-style: italic;
-	font-weight: bold;
 	line-height: 1.4;
-	letter-spacing: 0.02em;
 }
 
 .site-footer__post-title a,
