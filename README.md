@@ -14,6 +14,14 @@ Ab 1.3 zeigt der Footer Logo und die neuesten Beiträge aus frei wählbaren Inha
 Hintergrundfarbe (Standard: Schwarz) stehen unter **Design → Footer**. Copyright und
 Impressum-Link bleiben unverändert darunter.
 
+Ab 1.4 nutzen die Fahrzeugvorlagen die Ansichten des Plugins (ab 2.4): Die Seite mit der
+Vorlage **Fahrzeuge** zeigt unter dem Inhalt die Übersicht als Karten – oder nichts
+zusätzlich, wenn der Block „CityEL Fahrzeuge“ schon im Inhalt steht. Die Fahrzeugseite zeigt
+die Werkstattberichte im selben Stil wie Steckbrief und Chronik; steht der Block
+„CityEL Fahrzeug-Steckbrief“ im Fahrzeugtext, bestimmt er die Teile. Ohne Plugin (oder mit
+einer älteren Version) bleibt es bei den bisherigen Listen. „Weite/Volle Breite“ wirkt jetzt
+auch in den Seitenvorlagen (Fahrzeuge, Werkstatt, Presse, SCM, Linkempfehlungen).
+
 
 /*
 Theme Name: el-team-wp-theme
@@ -21,7 +29,7 @@ Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
 Author: Lukas Nacke
 Author URI: https://el-team-muensterland.de
 Description: Ein WordPress Theme für das El Team
-Version: 1.2.0
+Version: 1.4.0
 Requires at least: 5.0
 Requires PHP: 7.4
 License: GPL v3

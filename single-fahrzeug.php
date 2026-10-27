@@ -27,17 +27,19 @@ get_header();
                 </div>
 
                 <?php
-                // Steckbrief, Historie, Chronik und Unterlagen aus dem Plugin "CityEL Werkstatt"
-                // (die Werkstattberichte listet das Theme unten selbst).
-                if ( function_exists( 'cityel_the_vehicle_profile' ) ) {
-                    cityel_the_vehicle_profile( get_the_ID(), array( 'parts' => array( 'steckbrief', 'historie', 'chronik', 'unterlagen', 'papiere' ) ) );
+                // Steckbrief, Historie, Chronik, Werkstattberichte und Unterlagen aus dem Plugin "CityEL Werkstatt".
+                // Steht der Block "CityEL Fahrzeug-Steckbrief" im Text, setzt er die Teile selbst.
+                $el_team_plugin_profile = function_exists( 'cityel_the_vehicle_profile' );
+                if ( $el_team_plugin_profile && ! ( function_exists( 'cityel_has_vehicle_profile_block' ) && cityel_has_vehicle_profile_block() ) ) {
+                    cityel_the_vehicle_profile( get_the_ID(), array( 'parts' => array( 'steckbrief', 'historie', 'chronik', 'berichte', 'unterlagen', 'papiere' ) ) );
                 }
                 ?>
             </article>
 
             <?php
-            $werkstatt_query = el_team_get_werkstattberichte_for_fahrzeug( get_the_ID() );
-            if ( $werkstatt_query->have_posts() ) :
+            // Ohne Plugin: Werkstattberichte als einfache Liste.
+            $werkstatt_query = $el_team_plugin_profile ? null : el_team_get_werkstattberichte_for_fahrzeug( get_the_ID() );
+            if ( $werkstatt_query && $werkstatt_query->have_posts() ) :
                 ?>
                 <section class="fahrzeug-werkstattberichte">
                     <h2><?php esc_html_e( 'Werkstattberichte zum Fahrzeug', 'el-team-wp-theme' ); ?></h2>

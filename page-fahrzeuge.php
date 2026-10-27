@@ -20,10 +20,19 @@ get_header();
 					the_content();
 				}
 			}
+
+			// Mit dem Plugin "CityEL Werkstatt" (ab 2.4): Übersicht als Karten aus dem Plugin.
+			// Steht der Block "CityEL Fahrzeuge" (oder [cityel_fahrzeuge]) schon im Inhalt, nichts zusätzlich.
+			if ( function_exists( 'cityel_vehicle_overview' ) && ! cityel_has_vehicle_overview( get_queried_object_id() ) ) {
+				echo cityel_vehicle_overview(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped by the plugin.
+			}
 			?>
 		</div>
 
 		<?php
+		// Ohne Plugin (oder mit einer älteren Version): die bisherigen Listen nach Status.
+		if ( ! function_exists( 'cityel_vehicle_overview' ) ) {
+
 		// Aktive Fahrzeuge
 		$aktive_query = new WP_Query( array(
 			'post_type'      => 'fahrzeug',
@@ -215,6 +224,8 @@ get_header();
 			<p><?php esc_html_e( 'Keine Fahrzeuge gefunden.', 'el-team-wp-theme' ); ?></p>
 			<?php
 		}
+
+		} // Ende ohne Plugin
 		?>
 	</main>
 
