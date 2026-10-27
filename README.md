@@ -7,6 +7,8 @@ Seitenmatrix kommen aus dem Plugin **CityEL Werkstatt** (ab 2.0). Ohne das Plugi
 Fahrzeug- und Werkstattbericht-Seiten erreichbar (`inc/plugin-compat.php`), die
 Eingabe- und Zusatzfunktionen fehlen dann.
 
+Ab 1.2 unterstützt das Theme die Block-Ausrichtungen „Weite Breite“ und „Volle Breite“.
+
 
 /*
 Theme Name: el-team-wp-theme
@@ -14,7 +16,7 @@ Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
 Author: Lukas Nacke
 Author URI: https://el-team-muensterland.de
 Description: Ein WordPress Theme für das El Team
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 5.0
 Requires PHP: 7.4
 License: GPL v3

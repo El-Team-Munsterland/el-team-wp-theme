@@ -32,6 +32,9 @@ function el_team_setup_theme() {
 	// Add support for responsive embeds
 	add_theme_support( 'responsive-embeds' );
 
+	// Block alignments "Weite Breite" and "Volle Breite" (styles in assets/css/custom.css)
+	add_theme_support( 'align-wide' );
+
 	// Add support for editor styles
 	add_theme_support( 'editor-styles' );
 	add_editor_style( 'assets/css/custom.css' );

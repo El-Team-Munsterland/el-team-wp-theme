@@ -313,3 +313,31 @@ article.search::after {
 	display: table;
 	clear: both;
 }
+
+/* Block-Ausrichtungen „Weite Breite“ und „Volle Breite“ (add_theme_support 'align-wide').
+   Nur Blöcke, bei denen die Ausrichtung im Editor gewählt wurde, verlassen die 1200-px-Spalte. */
+.entry-content > .alignwide {
+	width: auto;
+	max-width: none;
+	margin-left: calc(50% - min(800px, 50vw - 20px));
+	margin-right: calc(50% - min(800px, 50vw - 20px));
+}
+
+.entry-content > .alignfull {
+	width: auto;
+	max-width: none;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+}
+
+/* 100vw enthält die Scrollleiste: horizontales Scrollen nur auf Seiten mit voller Breite unterbinden */
+html:has(.entry-content > .alignfull) {
+	overflow-x: clip;
+}
+
+/* Neben einer Seitenleiste bleibt es bei der Spaltenbreite */
+.content-wrapper.has-sidebar .entry-content > .alignwide,
+.content-wrapper.has-sidebar .entry-content > .alignfull {
+	margin-left: 0;
+	margin-right: 0;
+}
