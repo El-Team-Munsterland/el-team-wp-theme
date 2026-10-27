@@ -211,40 +211,8 @@ function el_team_footer_latest_posts() {
 		'ignore_sticky_posts' => true,
 		'no_found_rows'       => true,
 		'has_password'        => false,
-		// Keine posts_where-/posts_clauses-Filter von Plugins (z. B. Kategorie-Ausschlüsse)
-		'suppress_filters'    => true,
-		// Kennung für el_team_footer_protect_query()
-		'el_team_footer'      => true,
 	) );
 }
-
-/**
- * Schützt die Footer-Abfrage vor Änderungen durch andere pre_get_posts-Hooks.
- *
- * Eine zusätzliche WP_Query ohne Kategorie oder Archiv gilt für WordPress als
- * Startseiten-Abfrage (is_home()). Plugins oder Snippets, die etwa die Kategorie
- * "presse" auf der Startseite ausblenden und dabei nicht auf is_main_query() prüfen,
- * würden sonst auch die Beiträge im Footer herausfiltern. Der erste Hook merkt sich die
- * Abfrage, der letzte stellt sie wieder her.
- *
- * @param WP_Query $query Aktuelle Abfrage
- */
-function el_team_footer_protect_query( $query ) {
-	static $snapshots = array();
-
-	if ( ! $query->get( 'el_team_footer' ) ) {
-		return;
-	}
-	$id = spl_object_id( $query );
-	if ( ! isset( $snapshots[ $id ] ) ) {
-		$snapshots[ $id ] = $query->query_vars;
-		return;
-	}
-	$query->query_vars = $snapshots[ $id ];
-	unset( $snapshots[ $id ] );
-}
-add_action( 'pre_get_posts', 'el_team_footer_protect_query', PHP_INT_MIN );
-add_action( 'pre_get_posts', 'el_team_footer_protect_query', PHP_INT_MAX );
 
 /**
  * Anzahl der Wörter eines Beitrags (ohne HTML, Shortcodes und Block-Kommentare).
