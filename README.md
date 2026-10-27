@@ -9,6 +9,11 @@ Eingabe- und Zusatzfunktionen fehlen dann.
 
 Ab 1.2 unterstützt das Theme die Block-Ausrichtungen „Weite Breite“ und „Volle Breite“.
 
+Ab 1.3 zeigt der Footer Logo und die neuesten Beiträge aus frei wählbaren Inhaltstypen
+(auch eigenen, z. B. Werkstattberichte). Inhaltstypen, Anzahl, Überschrift und
+Hintergrundfarbe (Standard: Schwarz) stehen unter **Design → Footer**. Copyright und
+Impressum-Link bleiben unverändert darunter.
+
 
 /*
 Theme Name: el-team-wp-theme

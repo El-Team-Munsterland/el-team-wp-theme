@@ -6,6 +6,8 @@
 ?>
 	<footer id="colophon" class="site-footer">
 		<div class="site-footer__inner">
+			<?php get_template_part( 'template-parts/footer/latest-posts' ); ?>
+
 			<div class="site-footer__content">
 				<?php
 				if ( is_active_sidebar( 'footer-1' ) ) {

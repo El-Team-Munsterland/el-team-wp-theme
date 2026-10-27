@@ -122,10 +122,23 @@ main {
 }
 
 .site-footer {
-	background-color: #f5f5f5;
+	/* Farben kommen aus Design → Footer (inc/footer-posts.php) */
+	background-color: var(--el-footer-bg, #000000);
+	color: var(--el-footer-fg, #ffffff);
 	margin-top: 80px;
-	padding: 40px 0;
-	border-top: 1px solid #ddd;
+	padding: 60px 0 40px;
+}
+
+.site-footer a,
+.site-footer a:link,
+.site-footer a:visited {
+	color: inherit;
+}
+
+.site-footer a:hover,
+.site-footer a:focus {
+	color: inherit;
+	opacity: 0.75;
 }
 
 .site-footer__inner {
@@ -202,10 +215,116 @@ main {
 .site-footer__bottom {
 	margin-top: 40px;
 	padding-top: 20px;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
 	text-align: center;
-	color: #666;
 	font-size: 14px;
+}
+
+/* Footer: Logo und neueste Beiträge (template-parts/footer/latest-posts.php) */
+.site-footer__latest {
+	display: grid;
+	grid-template-columns: minmax(200px, 1fr) 2fr;
+	gap: 40px 60px;
+	align-items: start;
+}
+
+.site-footer__logo img,
+.site-footer__logo .custom-logo {
+	max-width: 180px;
+	height: auto;
+	background: #ffffff;
+	border-radius: 4px;
+	display: block;
+}
+
+.site-footer__site-name {
+	margin: 20px 0 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.site-footer__site-name a,
+.site-footer__site-name a:link,
+.site-footer__site-name a:visited {
+	text-decoration: none;
+}
+
+.site-footer__site-description {
+	margin: 0;
+	font-size: 14px;
+	opacity: 0.75;
+}
+
+.site-footer__posts-title {
+	margin: 0 0 30px;
+	font-size: 20px;
+}
+
+.site-footer__posts-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 40px 60px;
+}
+
+.site-footer__post {
+	margin: 0;
+}
+
+.site-footer__post-title {
+	margin: 0 0 10px;
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: 20px;
+	font-style: italic;
+	font-weight: bold;
+	line-height: 1.4;
+	letter-spacing: 0.02em;
+}
+
+.site-footer__post-title a,
+.site-footer__post-title a:link,
+.site-footer__post-title a:visited {
+	text-decoration: none;
+}
+
+.site-footer__post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 16px;
+	margin: 0;
+	font-size: 14px;
+	opacity: 0.8;
+}
+
+.site-footer__post-meta > span {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.site-footer__icon {
+	width: 1em;
+	height: 1em;
+	flex-shrink: 0;
+}
+
+.site-footer__content .widget {
+	margin-top: 40px;
+}
+
+@media (max-width: 900px) {
+	.site-footer__latest {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 600px) {
+	.site-footer__posts-list {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
 }
 
 /* Articles */
