@@ -26,6 +26,11 @@ Ab 1.5 ist unter den Footer-Beiträgen immer der neueste aus einer wählbaren Ka
 (**Design → Footer → Immer dabei**, Standard: Presse). Ist unter den neuesten Beiträgen
 keiner aus der Kategorie, nimmt ihr neuester Beitrag den letzten Platz ein.
 
+Ab 1.6 stehen auf der Fahrzeugseite Beitragsbild und Steckbrief (Plugin ab 2.20
+nebeneinander), Herkunft, Chronik, Werkstattberichte, Unterlagen und Fahrzeugpapiere vor
+dem Fahrzeugtext; der Text aus dem Blockeditor kommt zum Schluss. Mit einer älteren
+Plugin-Version fehlt nur das Beitragsbild.
+
 
 /*
 Theme Name: el-team-wp-theme

@@ -14,6 +14,16 @@ get_header();
                     <h1 class="entry-title"><?php the_title(); ?></h1>
                 </header>
 
+                <?php
+                // Beitragsbild, Steckbrief, Herkunft, Chronik, Werkstattberichte, Unterlagen und Fahrzeugpapiere
+                // aus dem Plugin "CityEL Werkstatt" vor dem Fahrzeugtext; der Text aus dem Blockeditor kommt zum Schluss.
+                // Steht der Block "CityEL Fahrzeug-Steckbrief" im Text, setzt er die Teile selbst.
+                $el_team_plugin_profile = function_exists( 'cityel_the_vehicle_profile' );
+                if ( $el_team_plugin_profile && ! ( function_exists( 'cityel_has_vehicle_profile_block' ) && cityel_has_vehicle_profile_block() ) ) {
+                    cityel_the_vehicle_profile( get_the_ID(), array( 'parts' => array( 'bild', 'steckbrief', 'historie', 'chronik', 'berichte', 'unterlagen', 'papiere' ) ) );
+                }
+                ?>
+
                 <div class="entry-content">
                     <?php
                     the_content();
@@ -26,14 +36,6 @@ get_header();
                     ?>
                 </div>
 
-                <?php
-                // Steckbrief, Historie, Chronik, Werkstattberichte und Unterlagen aus dem Plugin "CityEL Werkstatt".
-                // Steht der Block "CityEL Fahrzeug-Steckbrief" im Text, setzt er die Teile selbst.
-                $el_team_plugin_profile = function_exists( 'cityel_the_vehicle_profile' );
-                if ( $el_team_plugin_profile && ! ( function_exists( 'cityel_has_vehicle_profile_block' ) && cityel_has_vehicle_profile_block() ) ) {
-                    cityel_the_vehicle_profile( get_the_ID(), array( 'parts' => array( 'steckbrief', 'historie', 'chronik', 'berichte', 'unterlagen', 'papiere' ) ) );
-                }
-                ?>
             </article>
 
             <?php
