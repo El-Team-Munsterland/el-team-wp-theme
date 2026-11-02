@@ -29,6 +29,15 @@ if (!function_exists('sm_theme_dokumentation_render')) {
             <p>Funktionen: <code>el_team_footer_settings</code>, <code>el_team_footer_latest_posts</code>, <code>el_team_post_word_count</code> und <code>el_team_footer_text_color</code>; Option <code>el_team_footer_settings</code>.</p>
             <p>Technik: <code>inc/footer-posts.php</code>, <code>template-parts/footer/latest-posts.php</code>, <code>footer.php</code>; Farben als CSS-Variablen <code>--el-footer-bg</code> und <code>--el-footer-fg</code>, Styles in <code>assets/css/custom.css</code>.</p>
 
+            <h2>Externe Links</h2>
+            <p>Links auf andere Websites im Inhaltsbereich (Beiträge und Seiten, <code>.entry-content</code> und <code>.page-content</code>) erhalten automatisch ein kleines Symbol (Kästchen mit Pfeil) in der Linkfarbe. Erkannt wird jeder Link, dessen Adresse mit <code>http</code> beginnt; Links auf die eigene Domain (mit und ohne www), relative Links, E-Mail-Links und verlinkte Bilder bleiben ohne Symbol. Navigation, Kopfbereich und Footer sind nicht betroffen. Screenreader lesen das Symbol als „(externer Link)“.</p>
+            <p>Das Symbol steht als SVG direkt in <code>assets/css/custom.css</code>: kein zusätzlicher Abruf, kein JavaScript, keine Arbeit für den Server. Es stammt aus <strong>Lucide</strong> („external-link“, abgeleitet aus <strong>Feather</strong>); die Lizenztexte (ISC und MIT) stehen als Kommentar am Ende von <code>custom.css</code> und müssen dort bleiben.</p>
+            <h3>Symbol im Haftungshinweis</h3>
+            <p><code>[externer_link text="Beispiel-Link"]</code> – unterstrichener Mustertext mit Symbol, nicht klickbar.</p>
+            <p><code>[externer_link]</code> – nur das Symbol.</p>
+            <p>Der Shortcode funktioniert mitten im Text eines Absatzes, z. B. „Links auf fremde Seiten erkennen Sie an diesem Symbol: [externer_link]“.</p>
+            <p>Funktionen: <code>el_team_external_links_inline_style</code> und <code>el_team_external_link_shortcode</code>. Technik: <code>inc/external-links.php</code>, Styles in <code>assets/css/custom.css</code>.</p>
+
             <h2>Aufgabenteilung Theme und Plugin „CityEL Werkstatt“</h2>
             <p>Seit Version 1.1 liefert das Theme nur noch Darstellung: Vorlagen, Styles, Menüs, Seitenleisten und Presse-Logos. Daten und Bearbeitung liegen im Plugin <strong>CityEL Werkstatt</strong>: die Inhaltstypen <strong>Fahrzeuge</strong> (<code>fahrzeug</code>) und <strong>Werkstattberichte</strong> (<code>werkstattbericht</code>) mit Status, Steckbrief, Historie, Unterlagen und Zuordnung, die Eingabe der <strong>Linkempfehlungen</strong> (Meta-Feld <code>_el_team_links</code>) und die <strong>Seitenmatrix</strong> (Shortcode und Block). Slugs, Meta-Felder und Shortcodes sind unverändert; bestehende Inhalte funktionieren ohne Anpassung weiter. Beschreibung und Einstellungen: <strong>CityEL → Einstellungen</strong>.</p>
             <h3>Fahrzeuge</h3>

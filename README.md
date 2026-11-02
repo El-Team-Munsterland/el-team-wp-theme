@@ -31,6 +31,12 @@ nebeneinander), Herkunft, Chronik, Werkstattberichte, Unterlagen und Fahrzeugpap
 dem Fahrzeugtext; der Text aus dem Blockeditor kommt zum Schluss. Mit einer älteren
 Plugin-Version fehlt nur das Beitragsbild.
 
+Ab 1.7 tragen Links auf andere Websites im Inhaltsbereich ein kleines Symbol (Kästchen mit
+Pfeil), reines CSS ohne zusätzliche Abrufe. Für den Haftungshinweis zeigt
+`[externer_link text="Beispiel-Link"]` einen Muster-Link mit Symbol, `[externer_link]` nur
+das Symbol. Das Symbol stammt aus Lucide („external-link“, ISC) bzw. Feather (MIT); die
+Lizenztexte stehen am Ende von `assets/css/custom.css`.
+
 
 /*
 Theme Name: el-team-wp-theme

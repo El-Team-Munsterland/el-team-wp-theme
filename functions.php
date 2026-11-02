@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants
-define( 'EL_TEAM_THEME_VERSION', '1.5.0' );
+define( 'EL_TEAM_THEME_VERSION', '1.7.0' );
 define( 'EL_TEAM_THEME_DIR', get_template_directory() );
 define( 'EL_TEAM_THEME_URI', get_template_directory_uri() );
 
@@ -19,6 +19,7 @@ require_once EL_TEAM_THEME_DIR . '/inc/setup.php';
 require_once EL_TEAM_THEME_DIR . '/inc/enqueue.php';
 require_once EL_TEAM_THEME_DIR . '/inc/plugin-compat.php';
 require_once EL_TEAM_THEME_DIR . '/inc/footer-posts.php';
+require_once EL_TEAM_THEME_DIR . '/inc/external-links.php';
 
 /**
  * Include theme custom functions
