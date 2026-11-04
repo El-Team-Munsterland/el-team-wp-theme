@@ -1,0 +1,140 @@
+From 444e65d1405e02a19e8da1ad3107515f5d587a1e Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 4 Nov 2026 16:11:34 +0000
+Subject: [PATCH] =?UTF-8?q?Linkempfehlungen:=20Symbol=20f=C3=BCr=20externe?=
+ =?UTF-8?q?=20Links=20statt=20Pfeil?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+- page-linkempfehlungen.php: Schaltfläche "Webseite aufrufen" ohne "→".
+- assets/css/custom.css: .el-team-link-button trägt dasselbe Symbol wie
+  externe Links im Inhaltsbereich.
+- inc/external-links.php: Empfehlungen auf die eigene Domain bleiben
+  ohne Symbol.
+- Theme-Dokumentation und README ergänzt, Version 1.7.1.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_017EPrBudC4titxxjHuRJy85
+---
+ README.md                   | 3 ++-
+ assets/css/custom.css       | 2 ++
+ functions.php               | 2 +-
+ inc/external-links.php      | 5 +++--
+ inc/theme-dokumentation.php | 2 +-
+ page-linkempfehlungen.php   | 2 +-
+ style.css                   | 2 +-
+ 7 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/README.md b/README.md
+index d5f890d..0d25b93 100644
+--- a/README.md
++++ b/README.md
+@@ -35,7 +35,8 @@ Ab 1.7 tragen Links auf andere Websites im Inhaltsbereich ein kleines Symbol (K
+ Pfeil), reines CSS ohne zusätzliche Abrufe. Für den Haftungshinweis zeigt
+ `[externer_link text="Beispiel-Link"]` einen Muster-Link mit Symbol, `[externer_link]` nur
+ das Symbol. Das Symbol stammt aus Lucide („external-link“, ISC) bzw. Feather (MIT); die
+-Lizenztexte stehen am Ende von `assets/css/custom.css`.
++Lizenztexte stehen am Ende von `assets/css/custom.css`. Ab 1.7.1 tragen auch die
++Schaltflächen „Webseite aufrufen“ der Linkempfehlungen dieses Symbol statt des Pfeils.
+ 
+ 
+ /*
+diff --git a/assets/css/custom.css b/assets/css/custom.css
+index d0abf12..7644728 100644
+--- a/assets/css/custom.css
++++ b/assets/css/custom.css
+@@ -465,6 +465,7 @@ html:has(.page-content > .alignfull) {
+    Hinter Links auf andere Websites steht das Symbol "external-link". Es ist als SVG
+    direkt hier eingebettet: kein zusätzlicher Abruf, kein JavaScript. Eigene Links
+    mit voller Adresse nimmt eine kleine Inline-Regel aus inc/external-links.php aus.
++   Die Schaltflächen der Linkempfehlungen (.el-team-link-button) tragen dasselbe Symbol.
+    Für Screenreader lautet das Symbol "(externer Link)". */
+ :root {
+ 	--el-team-external-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='M10 14 21 3'/%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E");
+@@ -472,6 +473,7 @@ html:has(.page-content > .alignfull) {
+ 
+ .entry-content a[href^="http"]::after,
+ .page-content a[href^="http"]::after,
++.el-team-link-button::after,
+ .el-team-external-sample::after,
+ .el-team-external-icon::after {
+ 	content: "";
+diff --git a/functions.php b/functions.php
+index db3e391..6471a37 100644
+--- a/functions.php
++++ b/functions.php
+@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
+ }
+ 
+ // Define constants
+-define( 'EL_TEAM_THEME_VERSION', '1.7.0' );
++define( 'EL_TEAM_THEME_VERSION', '1.7.1' );
+ define( 'EL_TEAM_THEME_DIR', get_template_directory() );
+ define( 'EL_TEAM_THEME_URI', get_template_directory_uri() );
+ 
+diff --git a/inc/external-links.php b/inc/external-links.php
+index e3f22ce..6088647 100644
+--- a/inc/external-links.php
++++ b/inc/external-links.php
+@@ -13,7 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
+ }
+ 
+ /**
+- * Links mit voller Adresse der eigenen Website (mit und ohne www) bekommen kein Symbol.
++ * Links mit voller Adresse der eigenen Website (mit und ohne www) bekommen kein Symbol,
++ * auch nicht als Schaltfläche in den Linkempfehlungen.
+  */
+ function el_team_external_links_inline_style() {
+ 	$host = wp_parse_url( home_url(), PHP_URL_HOST );
+@@ -22,7 +23,7 @@ function el_team_external_links_inline_style() {
+ 	}
+ 	$host      = preg_replace( '/^www\./i', '', $host );
+ 	$selectors = array();
+-	foreach ( array( '.entry-content', '.page-content' ) as $area ) {
++	foreach ( array( '.entry-content', '.page-content', '.el-team-links-grid' ) as $area ) {
+ 		foreach ( array( $host, 'www.' . $host ) as $domain ) {
+ 			$selectors[] = sprintf( '%s a[href*="//%s"]::after', $area, esc_attr( $domain ) );
+ 		}
+diff --git a/inc/theme-dokumentation.php b/inc/theme-dokumentation.php
+index 962c62c..d7a0326 100644
+--- a/inc/theme-dokumentation.php
++++ b/inc/theme-dokumentation.php
+@@ -30,7 +30,7 @@ if (!function_exists('sm_theme_dokumentation_render')) {
+             <p>Technik: <code>inc/footer-posts.php</code>, <code>template-parts/footer/latest-posts.php</code>, <code>footer.php</code>; Farben als CSS-Variablen <code>--el-footer-bg</code> und <code>--el-footer-fg</code>, Styles in <code>assets/css/custom.css</code>.</p>
+ 
+             <h2>Externe Links</h2>
+-            <p>Links auf andere Websites im Inhaltsbereich (Beiträge und Seiten, <code>.entry-content</code> und <code>.page-content</code>) erhalten automatisch ein kleines Symbol (Kästchen mit Pfeil) in der Linkfarbe. Erkannt wird jeder Link, dessen Adresse mit <code>http</code> beginnt; Links auf die eigene Domain (mit und ohne www), relative Links, E-Mail-Links und verlinkte Bilder bleiben ohne Symbol. Navigation, Kopfbereich und Footer sind nicht betroffen. Screenreader lesen das Symbol als „(externer Link)“.</p>
++            <p>Links auf andere Websites im Inhaltsbereich (Beiträge und Seiten, <code>.entry-content</code> und <code>.page-content</code>) erhalten automatisch ein kleines Symbol (Kästchen mit Pfeil) in der Linkfarbe. Erkannt wird jeder Link, dessen Adresse mit <code>http</code> beginnt; Links auf die eigene Domain (mit und ohne www), relative Links, E-Mail-Links und verlinkte Bilder bleiben ohne Symbol. Navigation, Kopfbereich und Footer sind nicht betroffen. Die Schaltflächen „Webseite aufrufen“ der Linkempfehlungen (<code>page-linkempfehlungen.php</code>) tragen dasselbe Symbol statt eines Pfeils. Screenreader lesen das Symbol als „(externer Link)“.</p>
+             <p>Das Symbol steht als SVG direkt in <code>assets/css/custom.css</code>: kein zusätzlicher Abruf, kein JavaScript, keine Arbeit für den Server. Es stammt aus <strong>Lucide</strong> („external-link“, abgeleitet aus <strong>Feather</strong>); die Lizenztexte (ISC und MIT) stehen als Kommentar am Ende von <code>custom.css</code> und müssen dort bleiben.</p>
+             <h3>Symbol im Haftungshinweis</h3>
+             <p><code>[externer_link text="Beispiel-Link"]</code> – unterstrichener Mustertext mit Symbol, nicht klickbar.</p>
+diff --git a/page-linkempfehlungen.php b/page-linkempfehlungen.php
+index c3b6c9b..05ee8e8 100644
+--- a/page-linkempfehlungen.php
++++ b/page-linkempfehlungen.php
+@@ -47,7 +47,7 @@ get_header();
+                     <?php endif; ?>
+                     
+                     <a href="<?php echo esc_url( isset( $link['url'] ) ? $link['url'] : '#' ); ?>" class="el-team-link-button" target="_blank" rel="noopener noreferrer">
+-                        <?php esc_html_e( 'Webseite aufrufen →', 'el-team-wp-theme' ); ?>
++                        <?php esc_html_e( 'Webseite aufrufen', 'el-team-wp-theme' ); ?>
+                     </a>
+                 </div>
+             <?php endforeach; ?>
+diff --git a/style.css b/style.css
+index 503a81a..47f1494 100644
+--- a/style.css
++++ b/style.css
+@@ -4,7 +4,7 @@ Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
+ Author: Lukas Nacke
+ Author URI: https://el-team-muensterland.de
+ Description: Ein WordPress Theme für das El Team
+-Version: 1.7.0
++Version: 1.7.1
+ Requires at least: 5.0
+ Tested up to: 6.3
+ Requires PHP: 7.4
+-- 
+2.43.0
+

@@ -47,7 +47,7 @@ get_header();
                     <?php endif; ?>
                     
                     <a href="<?php echo esc_url( isset( $link['url'] ) ? $link['url'] : '#' ); ?>" class="el-team-link-button" target="_blank" rel="noopener noreferrer">
-                        <?php esc_html_e( 'Webseite aufrufen →', 'el-team-wp-theme' ); ?>
+                        <?php esc_html_e( 'Webseite aufrufen', 'el-team-wp-theme' ); ?>
                     </a>
                 </div>
             <?php endforeach; ?>

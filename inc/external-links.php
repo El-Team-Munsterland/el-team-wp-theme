@@ -13,7 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Links mit voller Adresse der eigenen Website (mit und ohne www) bekommen kein Symbol.
+ * Links mit voller Adresse der eigenen Website (mit und ohne www) bekommen kein Symbol,
+ * auch nicht als Schaltfläche in den Linkempfehlungen.
  */
 function el_team_external_links_inline_style() {
 	$host = wp_parse_url( home_url(), PHP_URL_HOST );
@@ -22,7 +23,7 @@ function el_team_external_links_inline_style() {
 	}
 	$host      = preg_replace( '/^www\./i', '', $host );
 	$selectors = array();
-	foreach ( array( '.entry-content', '.page-content' ) as $area ) {
+	foreach ( array( '.entry-content', '.page-content', '.el-team-links-grid' ) as $area ) {
 		foreach ( array( $host, 'www.' . $host ) as $domain ) {
 			$selectors[] = sprintf( '%s a[href*="//%s"]::after', $area, esc_attr( $domain ) );
 		}

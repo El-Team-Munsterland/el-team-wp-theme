@@ -35,7 +35,8 @@ Ab 1.7 tragen Links auf andere Websites im Inhaltsbereich ein kleines Symbol (K�
 Pfeil), reines CSS ohne zusätzliche Abrufe. Für den Haftungshinweis zeigt
 `[externer_link text="Beispiel-Link"]` einen Muster-Link mit Symbol, `[externer_link]` nur
 das Symbol. Das Symbol stammt aus Lucide („external-link“, ISC) bzw. Feather (MIT); die
-Lizenztexte stehen am Ende von `assets/css/custom.css`.
+Lizenztexte stehen am Ende von `assets/css/custom.css`. Ab 1.7.1 tragen auch die
+Schaltflächen „Webseite aufrufen“ der Linkempfehlungen dieses Symbol statt des Pfeils.
 
 
 /*
