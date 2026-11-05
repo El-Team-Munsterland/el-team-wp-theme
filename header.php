@@ -8,16 +8,12 @@
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<style>
-		.primary-navigation ul { display: flex !important; list-style: none !important; margin: 0 !important; padding: 0 !important; gap: 20px; flex-wrap: wrap; }
-		.primary-navigation li { display: inline-block !important; }
-		.primary-navigation .menu { display: flex !important; }
-	</style>
 	<?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 	<?php wp_body_open(); ?>
+	<a class="skip-link screen-reader-text" href="#site-content"><?php esc_html_e( 'Zum Inhalt springen', 'el-team-wp-theme' ); ?></a>
 
 	<header id="masthead" class="site-header">
 		<div class="site-branding">
@@ -28,11 +24,15 @@
 			?>
 			<div class="site-header-content">
 				<div class="site-title-wrapper">
-					<h1 class="site-title">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+					<?php
+					// Nur auf der Blog-Startseite ist der Seitenname die Hauptüberschrift; sonst hat jede Seite ihr eigenes h1.
+					$el_team_title_tag = ( is_front_page() && is_home() ) ? 'h1' : 'p';
+					?>
+					<<?php echo $el_team_title_tag; ?> class="site-title">
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 							<?php bloginfo( 'name' ); ?>
 						</a>
-					</h1>
+					</<?php echo $el_team_title_tag; ?>>
 					<p class="site-description">
 						<?php bloginfo( 'description' ); ?>
 					</p>

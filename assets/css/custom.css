@@ -1,20 +1,14 @@
 /**
- * Custom Theme Styles
+ * Layout und Bausteine des Themes.
+ * Farben, Schrift, Links und Hilfsklassen stehen in style.css (CSS-Variablen --el-…).
  */
 
-/* Typography */
-body {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-	font-size: 16px;
-	line-height: 1.6;
-	color: #333;
-}
-
-/* Layout */
+/* ------------------------------------------------------------------ Kopfbereich */
 .site-header {
-	background-color: #ffffff;
-	border-bottom: 1px solid #ddd;
+	background-color: var(--el-color-surface);
+	border-bottom: 1px solid var(--el-color-border);
 	padding: 20px;
+	margin-bottom: 40px;
 }
 
 .site-branding {
@@ -22,7 +16,7 @@ body {
 	align-items: stretch;
 	gap: 30px;
 	max-width: 1200px;
-	margin: 0 auto;
+	margin: 0 auto 20px;
 }
 
 .site-branding img,
@@ -39,42 +33,52 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+	min-width: 0;
 }
 
 .site-title-wrapper {
 	text-align: left;
 }
 
+/* .site-title ist auf der Blog-Startseite ein h1, sonst ein p (header.php) */
 .site-title {
 	margin: 0 0 10px 0;
-	font-size: 32px;
+	font-size: 2rem;
+	font-weight: bold;
+	line-height: 1.2;
 }
 
 .site-title a {
 	text-decoration: none;
-	color: #333;
+	color: var(--el-color-text);
 }
 
 .site-title a:hover {
-	color: #0073aa;
+	color: var(--el-color-primary);
 }
 
 .site-description {
 	margin: 0;
-	font-size: 14px;
-	color: #666;
+	font-size: 0.875rem;
+	color: var(--el-color-muted);
 	font-style: italic;
 }
 
 .site-header-bottom {
 	display: flex;
+	justify-content: flex-end;
 	align-items: center;
 	gap: 30px;
 	flex-wrap: wrap;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding-top: 10px;
 }
 
 .site-search {
 	margin-left: auto;
+	flex-shrink: 0;
+	max-width: 300px;
 }
 
 .site-search form {
@@ -85,42 +89,545 @@ body {
 
 .site-search input[type="search"] {
 	padding: 8px 12px;
-	border: 1px solid #ddd;
+	border: 1px solid var(--el-color-border);
 	border-radius: 3px;
-	font-size: 14px;
+	font: inherit;
+	font-size: 0.875rem;
 	min-width: 200px;
 }
 
-.site-search button {
+.site-search button,
+.site-search input[type="submit"] {
 	padding: 8px 16px;
-	background-color: #0073aa;
-	color: #fff;
+	background-color: var(--el-color-primary);
+	color: #ffffff;
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
-	font-size: 14px;
+	font: inherit;
+	font-size: 0.875rem;
 	transition: background-color 0.3s ease;
 }
 
-.site-search button:hover {
-	background-color: #005a87;
+.site-search button:hover,
+.site-search input[type="submit"]:hover {
+	background-color: var(--el-color-primary-dark);
 }
 
-/* Hide search form in widgets */
+/* Suchformular in Widgets ausblenden (die Suche steht im Kopfbereich) */
 .widget_search {
 	display: none;
 }
 
+/* ------------------------------------------------------------------ Navigation */
+.site-navigation-top {
+	margin-bottom: 20px;
+	padding-bottom: 15px;
+}
+
+.primary-navigation {
+	background: var(--el-color-surface-alt);
+	padding: 10px 15px;
+	border-radius: 6px;
+	border: 1px solid #e9ecef;
+}
+
+/* gilt für wp_nav_menu (ul.menu) und den Ersatz wp_page_menu (div.menu > ul) */
+.primary-navigation ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+
+.primary-navigation li {
+	display: inline-block;
+}
+
+.primary-navigation li a {
+	display: inline-block;
+	font-weight: 600;
+	font-size: 0.875rem;
+	color: #000000;
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+}
+
+.primary-navigation li a:hover {
+	background-color: var(--el-color-primary-light);
+	color: #000000;
+}
+
+.primary-navigation .current-menu-item > a,
+.primary-navigation .current_page_item > a {
+	font-weight: bold;
+}
+
+/* Menü-Knopf: nur auf schmalen Bildschirmen und nur mit JavaScript (assets/js/main.js) */
+.menu-toggle {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 14px;
+	border: 1px solid var(--el-color-border);
+	border-radius: 4px;
+	background: var(--el-color-surface);
+	color: #000000;
+	font: inherit;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.menu-toggle__icon,
+.menu-toggle__icon::before,
+.menu-toggle__icon::after {
+	display: block;
+	width: 18px;
+	height: 2px;
+	background: currentColor;
+	position: relative;
+	transition: transform 0.2s ease;
+}
+
+.menu-toggle__icon::before,
+.menu-toggle__icon::after {
+	content: "";
+	position: absolute;
+	left: 0;
+}
+
+.menu-toggle__icon::before { top: -6px; }
+.menu-toggle__icon::after { top: 6px; }
+
+.primary-navigation.is-open .menu-toggle__icon { background: transparent; }
+.primary-navigation.is-open .menu-toggle__icon::before { transform: translateY(6px) rotate(45deg); }
+.primary-navigation.is-open .menu-toggle__icon::after { transform: translateY(-6px) rotate(-45deg); }
+
+/* ------------------------------------------------------------------ Layout */
 main {
 	max-width: 1200px;
 	margin: 40px auto;
 	padding: 0 20px;
 }
 
+.content-wrapper {
+	display: flex;
+	gap: 40px;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+.content-wrapper.has-sidebar .main-content {
+	flex: 1;
+	max-width: calc(100% - 320px);
+}
+
 .primary-sidebar {
+	width: 280px;
+	flex-shrink: 0;
 	margin-top: 40px;
 }
 
+.primary-sidebar .widget {
+	background: var(--el-color-surface-alt);
+	border: 1px solid #e9ecef;
+	border-radius: 8px;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+.primary-sidebar .widget-title {
+	margin: 0 0 15px 0;
+	padding-bottom: 10px;
+	border-bottom: 2px solid var(--el-color-primary);
+	font-size: 1.2em;
+	color: var(--el-color-text);
+}
+
+.subpages-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.subpage-item {
+	margin-bottom: 8px;
+}
+
+.subpage-link {
+	display: block;
+	padding: 8px 12px;
+	color: var(--el-color-primary);
+	text-decoration: none;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+}
+
+.subpage-link:hover {
+	background-color: var(--el-color-primary-light);
+	color: var(--el-color-primary-dark);
+}
+
+/* ------------------------------------------------------------------ Beiträge und Seiten */
+article {
+	margin-bottom: 40px;
+	padding-bottom: 40px;
+	border-bottom: 1px solid var(--el-color-border);
+}
+
+article:last-child {
+	border-bottom: none;
+}
+
+.page-header {
+	margin-bottom: 30px;
+}
+
+.page-title {
+	margin: 0;
+}
+
+.entry-header {
+	margin-bottom: 20px;
+}
+
+.entry-title {
+	margin: 0 0 10px 0;
+	font-size: 2rem;
+	line-height: 1.25;
+}
+
+/* In Listen (Blog, Archive) sind die Titel h2 */
+h2.entry-title {
+	font-size: 1.5rem;
+}
+
+.entry-title a {
+	text-decoration: none;
+}
+
+.entry-meta {
+	font-size: 0.875rem;
+	color: var(--el-color-muted);
+}
+
+.post-thumbnail {
+	margin: 20px 0;
+}
+
+.post-thumbnail img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+.entry-footer {
+	font-size: 0.875rem;
+	color: var(--el-color-muted);
+}
+
+.page-links {
+	margin-top: 20px;
+}
+
+/* Blättern (Blog, Archive, Suche) und Vor/Zurück im Beitrag */
+.pagination .nav-links,
+.post-navigation .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 20px;
+	margin: 40px 0;
+}
+
+.post-navigation .nav-next {
+	margin-left: auto;
+}
+
+.pagination .page-numbers {
+	display: inline-block;
+	min-width: 2.2em;
+	padding: 6px 10px;
+	border: 1px solid var(--el-color-border);
+	border-radius: 4px;
+	background: var(--el-color-surface);
+	text-align: center;
+	text-decoration: none;
+	box-sizing: border-box;
+}
+
+.pagination .page-numbers.current {
+	background: var(--el-color-primary);
+	border-color: var(--el-color-primary);
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.pagination .page-numbers.dots {
+	border: none;
+	background: none;
+}
+
+/* Suchergebnisse: Bild links neben dem Text */
+.search-post-thumbnail {
+	float: left;
+	margin-right: 25px;
+	margin-bottom: 15px;
+	width: 280px;
+	flex-shrink: 0;
+}
+
+.search-post-thumbnail img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+	width: 100%;
+}
+
+.search-post-thumbnail a {
+	display: block;
+}
+
+article.search::after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+/* ------------------------------------------------------------------ Übersichten nach Kategorie
+   Presse, Werkstatt, Solarchallenge (template-parts/content/kategorie-uebersicht.php) */
+.kategorie-uebersicht {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.kategorie-uebersicht td {
+	padding: 8px;
+	vertical-align: top;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.kategorie-uebersicht__datum {
+	white-space: nowrap;
+}
+
+.kategorie-uebersicht__jahr td {
+	vertical-align: middle;
+	font-weight: bold;
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #999999;
+}
+
+/* Logo der Zeitung statt Kürzel im Titel (el_team_replace_title_prefix_with_logo) */
+.presselogo {
+	height: 1.2em;
+	max-height: 100%;
+	width: auto;
+	margin-right: 5px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+/* ------------------------------------------------------------------ Linkempfehlungen
+   page-linkempfehlungen.php */
+.el-team-links-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 30px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.el-team-link-card {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 20px;
+	background: var(--el-color-surface);
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+.el-team-link-card:hover {
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
+}
+
+.el-team-link-logo {
+	text-align: center;
+	margin-bottom: 15px;
+	height: 120px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f9f9f9;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+.el-team-link-logo-img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	width: auto;
+	height: auto;
+}
+
+.el-team-link-title {
+	margin: 10px 0;
+	font-size: 1.2em;
+	line-height: 1.4;
+}
+
+.el-team-link-title a {
+	text-decoration: none;
+	color: inherit;
+	transition: color 0.2s ease;
+}
+
+.el-team-link-title a:hover {
+	color: var(--el-color-primary);
+}
+
+.el-team-link-description {
+	flex-grow: 1;
+	color: var(--el-color-muted);
+	font-size: 0.95em;
+	line-height: 1.5;
+	margin: 10px 0;
+}
+
+.el-team-link-button {
+	display: inline-block;
+	margin-top: 15px;
+	padding: 10px 15px;
+	background: var(--el-color-primary);
+	color: #ffffff;
+	text-decoration: none;
+	border-radius: 4px;
+	transition: background 0.2s ease;
+	font-weight: bold;
+	text-align: center;
+}
+
+.el-team-link-button:hover {
+	background: var(--el-color-primary-dark);
+	color: #ffffff;
+}
+
+/* ------------------------------------------------------------------ Fahrzeuge
+   Listen in page-fahrzeuge.php, nur ohne Plugin "CityEL Werkstatt" */
+.fahrzeuge-aktiv {
+	margin-bottom: 3em;
+}
+
+.fahrzeuge-aktiv article,
+.fahrzeuge-archiv article,
+.fahrzeuge-ohne-status article {
+	margin-bottom: 60px;
+}
+
+.fahrzeuge-archiv {
+	margin-top: 3em;
+	padding-top: 2em;
+	border-top: 2px solid var(--el-color-border);
+}
+
+.fahrzeuge-archiv h2 {
+	color: var(--el-color-muted);
+	font-style: italic;
+}
+
+.fahrzeuge-ohne-status {
+	margin-top: 2em;
+	padding: 1em;
+	background-color: #fff3cd;
+	border: 1px solid #ffeaa7;
+	border-radius: 4px;
+}
+
+.fahrzeuge-ohne-status h2 {
+	color: #856404;
+	margin-top: 0;
+}
+
+.fahrzeug-inaktiv {
+	opacity: 0.8;
+}
+
+.fahrzeug-inaktiv .entry-title a {
+	color: var(--el-color-muted);
+}
+
+.fahrzeug-ohne-status {
+	border-left: 4px solid #ffc107;
+}
+
+/* ------------------------------------------------------------------ Seitenmatrix
+   Block/Shortcode aus dem Plugin "CityEL Werkstatt" */
+.sm-wrapper {
+	width: 100%;
+	overflow-x: auto;
+	margin: 20px 0;
+}
+
+.sm-table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: auto;
+}
+
+.sm-table td {
+	vertical-align: top;
+	text-align: left;
+	padding: 12px 16px;
+	border: none;
+	border-right: 6px solid #777777;
+	min-width: 160px;
+	background: transparent;
+}
+
+.sm-table td:last-child {
+	border-right: none;
+}
+
+.sm-table a {
+	color: #000080;
+	font-weight: 600;
+	text-decoration: none;
+	line-height: 1.5;
+}
+
+.sm-table a:hover {
+	text-decoration: underline;
+}
+
+.sm-table .sm-level-1 a {
+	color: #000000;
+	font-weight: 700;
+}
+
+.sm-table .sm-level-2 a {
+	color: #000080;
+	font-weight: 700;
+}
+
+.sm-table .sm-level-3 a,
+.sm-table .sm-level-4 a,
+.sm-table .sm-level-5 a {
+	color: #000000;
+	font-weight: 400;
+	font-size: 0.875rem;
+}
+
+/* ------------------------------------------------------------------ Footer */
 .site-footer {
 	/* Farben kommen aus Design → Footer (inc/footer-posts.php) */
 	background-color: var(--el-footer-bg, #000000);
@@ -147,77 +654,21 @@ main {
 	padding: 0 20px;
 }
 
-.site-header-bottom {
-	display: flex;
-	align-items: center;
-	gap: 30px;
-	flex-wrap: nowrap;
-}
-
-.primary-navigation {
-	padding: 0;
-	width: auto;
-	flex: 1;
-}
-
-.primary-navigation .menu {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
-	justify-content: flex-start;
-}
-
-/* Style for wp_page_menu fallback */
-#page ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 20px;
-}
-
-#page li {
-	display: inline-block;
-}
-
-.primary-navigation .menu-item a {
-	color: #333;
-	text-decoration: none;
-	font-size: 14px;
-	transition: color 0.3s ease;
-}
-
-#page a {
-	color: #333;
-	text-decoration: none;
-	font-size: 14px;
-	transition: color 0.3s ease;
-}
-
-.primary-navigation .menu-item a:hover {
-	color: #0073aa;
-}
-
-.primary-navigation .menu-item.current-menu-item > a {
-	font-weight: bold;
-	color: #0073aa;
-}
-
-.site-search {
-	margin-left: auto;
-	flex-shrink: 0;
-}
-
 .site-footer__bottom {
 	margin-top: 40px;
 	padding-top: 20px;
 	border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent);
 	text-align: center;
-	font-size: 14px;
+	font-size: 0.875rem;
+}
+
+.site-footer__copyright {
+	margin: 0;
+}
+
+.site-footer__legal-sep {
+	margin: 0 0.5em;
+	opacity: 0.6;
 }
 
 /* Footer: Logo und neueste Beiträge (template-parts/footer/latest-posts.php) */
@@ -239,7 +690,7 @@ main {
 
 .site-footer__site-name {
 	margin: 20px 0 5px;
-	font-size: 18px;
+	font-size: 1.125rem;
 	font-weight: bold;
 }
 
@@ -251,13 +702,13 @@ main {
 
 .site-footer__site-description {
 	margin: 0;
-	font-size: 14px;
+	font-size: 0.875rem;
 	opacity: 0.75;
 }
 
 .site-footer__posts-title {
 	margin: 0 0 30px;
-	font-size: 20px;
+	font-size: 1.25rem;
 }
 
 .site-footer__posts-list {
@@ -289,7 +740,7 @@ main {
 	flex-wrap: wrap;
 	gap: 4px 16px;
 	margin: 0;
-	font-size: 14px;
+	font-size: 0.875rem;
 	opacity: 0.8;
 }
 
@@ -322,42 +773,8 @@ main {
 	}
 }
 
-/* Articles */
-article {
-	margin-bottom: 40px;
-	padding-bottom: 40px;
-	border-bottom: 1px solid #ddd;
-}
 
-article:last-child {
-	border-bottom: none;
-}
-
-.entry-header {
-	margin-bottom: 20px;
-}
-
-.entry-title {
-	margin: 0 0 10px 0;
-	font-size: 32px;
-}
-
-.entry-meta {
-	font-size: 14px;
-	color: #666;
-}
-
-.post-thumbnail {
-	margin: 20px 0;
-}
-
-.post-thumbnail img {
-	max-width: 100%;
-	height: auto;
-	display: block;
-}
-
-/* Responsive */
+/* ------------------------------------------------------------------ Schmale Bildschirme */
 @media (max-width: 768px) {
 	.site-branding {
 		flex-direction: column;
@@ -377,55 +794,81 @@ article:last-child {
 	.site-search {
 		margin-left: 0;
 		width: 100%;
+		max-width: none;
 	}
 
 	.site-search form {
 		width: 100%;
 	}
 
+	.site-search label {
+		flex: 1;
+	}
+
 	.site-search input[type="search"] {
-		min-width: 100%;
+		min-width: 0;
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	.site-title {
-		font-size: 24px;
+		font-size: 1.5rem;
 	}
 
-	.primary-navigation .menu {
-		gap: 15px;
-		flex-direction: column;
-		align-items: center;
+	.entry-title {
+		font-size: 1.5rem;
 	}
 
 	main {
 		margin: 20px auto;
 	}
-}
-/* Search Results - Floating Thumbnail */
-.search-post-thumbnail {
-	float: left;
-	margin-right: 25px;
-	margin-bottom: 15px;
-	width: 280px;
-	flex-shrink: 0;
-}
 
-.search-post-thumbnail img {
-	max-width: 100%;
-	height: auto;
-	display: block;
-	width: 100%;
-}
+	.content-wrapper {
+		flex-direction: column;
+		gap: 20px;
+	}
 
-.search-post-thumbnail a {
-	display: block;
-}
+	.content-wrapper.has-sidebar .main-content {
+		max-width: 100%;
+	}
 
-/* Clearfix for search articles */
-article.search::after {
-	content: '';
-	display: table;
-	clear: both;
+	.primary-sidebar {
+		width: 100%;
+	}
+
+	.primary-navigation ul {
+		gap: 5px;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	/* Mit JavaScript: Menü hinter dem Knopf; ohne JavaScript bleibt es offen */
+	.primary-navigation.has-menu-toggle {
+		text-align: center;
+	}
+
+	.menu-toggle:not([hidden]) {
+		display: inline-flex;
+	}
+
+	.primary-navigation.has-menu-toggle:not(.is-open) .primary-navigation__menu {
+		display: none;
+	}
+
+	.primary-navigation.has-menu-toggle.is-open .primary-navigation__menu {
+		margin-top: 10px;
+	}
+
+	.sm-table td {
+		min-width: 140px;
+		padding: 10px;
+	}
+
+	.search-post-thumbnail {
+		float: none;
+		width: 100%;
+		margin-right: 0;
+	}
 }
 
 /* Block-Ausrichtungen „Weite Breite“ und „Volle Breite“ (add_theme_support 'align-wide').

@@ -8,7 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define constants
-define( 'EL_TEAM_THEME_VERSION', '1.7.1' );
+// Version nur in style.css pflegen; sie hängt an den CSS/JS-Adressen, damit Browser Änderungen neu laden.
+define( 'EL_TEAM_THEME_VERSION', wp_get_theme( get_template() )->get( 'Version' ) );
 define( 'EL_TEAM_THEME_DIR', get_template_directory() );
 define( 'EL_TEAM_THEME_URI', get_template_directory_uri() );
 
@@ -53,40 +54,82 @@ function el_team_get_presselogo_map() {
 }
 
 /**
- * Prüft, ob ein Titel mit einem definierten Präfix beginnt und ersetzt diesen durch ein Logo
- * 
- * @param string $title Der Artikel-Titel
- * @return string Der Titel mit Logo oder Original-Titel
+ * Zerlegt einen Titel in Präfix (Schlüssel aus el_team_get_presselogo_map, z. B. "rn") und Resttitel.
+ *
+ * @param string $title Titel, z. B. "rn: Begeisterung auf drei Rädern"
+ * @return array Präfix (oder null) und Titel ohne Präfix
  */
-function el_team_replace_title_prefix_with_logo( $title ) {
-	$logo_map = el_team_get_presselogo_map();
-	
-	foreach ( $logo_map as $prefix => $logo_file ) {
-		// Prüfe Präfix case-insensitive mit Doppelpunkt
+function el_team_split_title_prefix( $title ) {
+	foreach ( el_team_get_presselogo_map() as $prefix => $logo_file ) {
+		// Präfix case-insensitive mit Doppelpunkt
 		$pattern = '/^' . preg_quote( $prefix, '/' ) . ':\s*/i';
-		
 		if ( preg_match( $pattern, $title ) ) {
-			// Entferne Präfix aus Titel
-			$clean_title = preg_replace( $pattern, '', $title );
-			
-			// Erstelle Logo-URL
-			$logo_url = EL_TEAM_THEME_URI . '/assets/images/presselogo/' . $logo_file;
-			
-			// Erstelle HTML mit Logo und Titel
-			$html = sprintf(
-				'<img src="%s" alt="%s Logo" style="height:1.2em; max-height:100%%; width:auto; margin-right:5px; vertical-align:middle; display:inline-block;"> %s',
-				esc_url( $logo_url ),
-				esc_attr( $prefix ),
-				esc_html( $clean_title )
-			);
-			
-			return $html;
+			return array( $prefix, preg_replace( $pattern, '', $title, 1 ) );
 		}
 	}
-	
-	// Falls kein Präfix gefunden, Original-Titel zurückgeben
-	return esc_html( $title );
+	return array( null, $title );
 }
+
+/**
+ * Prüft, ob ein Titel mit einem definierten Präfix beginnt und ersetzt diesen durch ein Logo
+ *
+ * Erwartet den Titel so, wie er gespeichert ist (mit Präfix), z. B. aus el_team_title_with_presselogo().
+ *
+ * @param string $title Der Artikel-Titel
+ * @return string Der Titel mit Logo oder Original-Titel (HTML, escaped)
+ */
+function el_team_replace_title_prefix_with_logo( $title ) {
+	static $sizes = array();
+
+	list( $prefix, $clean_title ) = el_team_split_title_prefix( $title );
+	$clean_title = esc_html( wptexturize( $clean_title ) );
+	if ( null === $prefix ) {
+		return $clean_title;
+	}
+
+	$logo_file = el_team_get_presselogo_map()[ $prefix ];
+	if ( ! isset( $sizes[ $logo_file ] ) ) {
+		$size                 = @getimagesize( EL_TEAM_THEME_DIR . '/assets/images/presselogo/' . $logo_file );
+		$sizes[ $logo_file ] = $size ? sprintf( ' width="%d" height="%d"', $size[0], $size[1] ) : '';
+	}
+
+	return sprintf(
+		'<img src="%s" alt="%s"%s class="presselogo">%s',
+		esc_url( EL_TEAM_THEME_URI . '/assets/images/presselogo/' . $logo_file ),
+		/* translators: %s: Kürzel der Zeitung, z. B. RN */
+		esc_attr( sprintf( __( '%s Logo', 'el-team-wp-theme' ), strtoupper( $prefix ) ) ),
+		$sizes[ $logo_file ],
+		$clean_title
+	);
+}
+
+/**
+ * Titel eines Beitrags mit Logo statt Präfix (für Übersichten und die Beitragsseite).
+ *
+ * @param int|WP_Post|null $post Beitrag, Standard: aktueller Beitrag
+ * @return string HTML, escaped
+ */
+function el_team_title_with_presselogo( $post = null ) {
+	return el_team_replace_title_prefix_with_logo( get_post_field( 'post_title', $post ) );
+}
+
+/**
+ * Entfernt das Präfix ("rn: ") aus Titeln außerhalb des Adminbereichs: im Footer, in Listen,
+ * in der Suche, im RSS-Feed und im Titel des Browser-Tabs. Im Adminbereich bleibt es stehen,
+ * damit es beim Bearbeiten sichtbar ist.
+ *
+ * @param string $title Titel
+ * @return string
+ */
+function el_team_strip_title_prefix( $title ) {
+	if ( is_admin() || ! is_string( $title ) ) {
+		return $title;
+	}
+	list( , $clean_title ) = el_team_split_title_prefix( $title );
+	return $clean_title;
+}
+add_filter( 'the_title', 'el_team_strip_title_prefix' );
+add_filter( 'single_post_title', 'el_team_strip_title_prefix' );
 
 /**
  * Liefert Werkstattberichte für ein Fahrzeug zurück.

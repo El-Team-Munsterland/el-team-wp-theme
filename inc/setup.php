@@ -50,9 +50,9 @@ function el_team_setup_theme() {
 		'flex-width'         => true,
 	) );
 
-	// Add support for custom background
+	// Add support for custom background (Standard wie in style.css: --el-color-page)
 	add_theme_support( 'custom-background', array(
-		'default-color'      => 'ffffff',
+		'default-color'      => 'ffec73',
 		'default-image'      => '',
 		'default-repeat'     => 'repeat',
 		'default-position-x' => 'left',
@@ -61,8 +61,8 @@ function el_team_setup_theme() {
 
 	// Register navigation menus
 	register_nav_menus( array(
-		'primary'   => esc_html__( 'Primary Menu', 'el-team-wp-theme' ),
-		'secondary' => esc_html__( 'Secondary Menu', 'el-team-wp-theme' ),
+		'primary'   => esc_html__( 'Hauptmenü', 'el-team-wp-theme' ),
+		'secondary' => esc_html__( 'Zweites Menü (derzeit nicht ausgegeben)', 'el-team-wp-theme' ),
 	) );
 
 	// Load textdomain for translations
@@ -77,9 +77,9 @@ function el_team_setup_theme() {
  */
 function el_team_register_sidebars() {
 	register_sidebar( array(
-		'name'          => esc_html__( 'Primary Sidebar', 'el-team-wp-theme' ),
+		'name'          => esc_html__( 'Seitenleiste', 'el-team-wp-theme' ),
 		'id'            => 'primary',
-		'description'   => esc_html__( 'Main sidebar', 'el-team-wp-theme' ),
+		'description'   => esc_html__( 'Erscheint auf Seiten mit Seitenleiste, wenn die Seite keine Unterseiten hat.', 'el-team-wp-theme' ),
 		'before_widget' => '<div id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -89,7 +89,7 @@ function el_team_register_sidebars() {
 	register_sidebar( array(
 		'name'          => esc_html__( 'Footer', 'el-team-wp-theme' ),
 		'id'            => 'footer-1',
-		'description'   => esc_html__( 'Footer widget area', 'el-team-wp-theme' ),
+		'description'   => esc_html__( 'Erscheint im Footer unter den neuesten Beiträgen.', 'el-team-wp-theme' ),
 		'before_widget' => '<div id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h3 class="widget-title">',

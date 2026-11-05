@@ -85,7 +85,6 @@ get_header();
 							</a>
 						</footer>
 					</article>
-					<div class="wp-block-spacer" style="height: 20px;"></div>
 					<?php
 				}
 				?>
@@ -147,7 +146,6 @@ get_header();
 							</a>
 						</footer>
 					</article>
-					<div class="wp-block-spacer" style="height: 20px;"></div>
 					<?php
 				}
 				?>
@@ -209,7 +207,6 @@ get_header();
 							</a>
 						</footer>
 					</article>
-					<div class="wp-block-spacer" style="height: 20px;"></div>
 					<?php
 				}
 				?>

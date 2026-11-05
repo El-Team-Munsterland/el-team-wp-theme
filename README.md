@@ -1,5 +1,5 @@
 # el-team-wp-theme
-The Wordpress Theme which is used at the el-team Website
+Das WordPress-Theme der Website des El-Team Münsterland (https://el-team-muensterland.de).
 
 Ab Version 1.1 enthält das Theme nur noch die Darstellung (Vorlagen, Styles, Menüs,
 Seitenleisten, Presse-Logos). Fahrzeuge, Werkstattberichte, Linkempfehlungen und die
@@ -38,21 +38,13 @@ das Symbol. Das Symbol stammt aus Lucide („external-link“, ISC) bzw. Feather
 Lizenztexte stehen am Ende von `assets/css/custom.css`. Ab 1.7.1 tragen auch die
 Schaltflächen „Webseite aufrufen“ der Linkempfehlungen dieses Symbol statt des Pfeils.
 
-
-/*
-Theme Name: el-team-wp-theme
-Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
-Author: Lukas Nacke
-Author URI: https://el-team-muensterland.de
-Description: Ein WordPress Theme für das El Team
-Version: 1.4.0
-Requires at least: 5.0
-Requires PHP: 7.4
-License: GPL v3
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: el-team-wp-theme
-Domain Path: /languages
-Tags: responsive, modern, custom-colors, custom-header, custom-logo
-
-This theme, like WordPress, is licensed under the GPL.
-*/
+Ab 1.8 ist das Theme aufgeräumt: `style.css` enthält nur noch die Grundlagen (Farben als
+CSS-Variablen `--el-color-…`, Schrift, Links), Layout und Bausteine stehen in
+`assets/css/custom.css`, Schriftgrößen in rem. Neu sind `page.php` (Seiten ohne Datum und
+Kategorien), Blättern in Beitragslisten und Archiven, ein Menü-Knopf auf dem Handy, ein
+„Zum Inhalt springen“-Link und der Link zur Datenschutzerklärung im Footer
+(**Einstellungen → Datenschutz**). Zeitungskürzel wie „rn:“ erscheinen nur noch in den
+Übersichten und auf der Beitragsseite als Logo und sind sonst ausgeblendet. Presse, Werkstatt
+und Solarchallenge nutzen eine gemeinsame Vorlage
+(`template-parts/content/kategorie-uebersicht.php`). Die Versionsnummer wird nur noch in
+`style.css` gepflegt.

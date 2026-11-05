@@ -1,54 +1,38 @@
-# Ignore deploy script (do not commit credentials or local deploy tools)
+# Deploy-Skript (keine Zugangsdaten oder lokalen Werkzeuge einchecken)
 deploy-to-xampp.ps1
 
-# Editor and OS files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
+# Patches (werden mit git am eingespielt, nicht eingecheckt)
+*.patch
 
-# Node / build
-node_modules/
-dist/
-build/
-
-# Logs
-*.log
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
+# Editoren und Betriebssystem
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-.sublime-project
-.sublime-workspace
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
 
-# Dependencies
+# Abhängigkeiten und Build
 node_modules/
-composer.lock
 vendor/
-
-# Build files
+composer.lock
 dist/
 build/
 *.min.js
 *.min.css
 
-# Environment
+# Umgebung
 .env
 .env.local
 .env.*.local
 
-# Logs
+# Logs und temporäre Dateien
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Temp files
 *.tmp
 *.temp

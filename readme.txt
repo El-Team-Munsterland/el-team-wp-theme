@@ -1,19 +1,22 @@
-# el-team-wp-theme
-The Wordpress Theme which is used at the el-team Website
-/*
-Theme Name: el-team-wp-theme
-Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
-Author: Lukas Nacke
-Author URI: https://el-team-muensterland.de
-Description: Ein WordPress Theme für das El Team
-Version: 1.0.0
-Requires at least: 5.0
+=== el-team-wp-theme ===
+Requires at least: 5.5
 Requires PHP: 7.4
-License: GPL v3
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: el-team-wp-theme
-Domain Path: /languages
-Tags: responsive, modern, custom-colors, custom-header, custom-logo
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-This theme, like WordPress, is licensed under the GPL.
-*/
+WordPress-Theme der Website des El-Team Münsterland (https://el-team-muensterland.de).
+
+== Beschreibung ==
+
+Das Theme liefert die Darstellung: Vorlagen, Styles, Menüs, Seitenleisten, Footer mit den
+neuesten Beiträgen und Presse-Logos. Inhaltstypen und Eingabe (Fahrzeuge, Werkstattberichte,
+Linkempfehlungen, Seitenmatrix) kommen aus dem Plugin "CityEL Werkstatt".
+
+Versionsnummer und Änderungen: style.css und README.md.
+Ausführliche Beschreibung im Adminbereich unter Design → Theme-Dokumentation.
+
+== Fremde Bestandteile ==
+
+* Symbol "external-link" aus Lucide (https://lucide.dev), ISC-Lizenz, abgeleitet aus
+  Feather (https://feathericons.com), MIT-Lizenz. Eingebettet in assets/css/custom.css,
+  Lizenztexte am Ende dieser Datei.

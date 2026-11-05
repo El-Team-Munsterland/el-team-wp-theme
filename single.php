@@ -14,7 +14,7 @@ get_header();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <header class="entry-header">
-                    <h1 class="entry-title"><?php the_title(); ?></h1>
+                    <h1 class="entry-title"><?php echo el_team_title_with_presselogo(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?></h1>
                     <div class="entry-meta">
                         <span class="posted-on">
                             <?php
@@ -38,7 +38,7 @@ get_header();
                     the_content();
                     wp_link_pages(
                         array(
-                            'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'el-team-wp-theme' ),
+                            'before' => '<div class="page-links">' . esc_html__( 'Seiten:', 'el-team-wp-theme' ),
                             'after'  => '</div>',
                         )
                     );

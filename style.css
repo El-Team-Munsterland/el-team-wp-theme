@@ -4,8 +4,8 @@ Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
 Author: Lukas Nacke
 Author URI: https://el-team-muensterland.de
 Description: Ein WordPress Theme für das El Team
-Version: 1.7.1
-Requires at least: 5.0
+Version: 1.8.0
+Requires at least: 5.5
 Tested up to: 6.3
 Requires PHP: 7.4
 License: GPL v3
@@ -17,414 +17,147 @@ Tags: custom-colors, custom-header, custom-logo
 
 This theme, like WordPress, is licensed under the GPL.
 */
+
+/*
+ * Grundlagen: Farben, Schrift, Links und Hilfsklassen.
+ * Layout und Bausteine stehen in assets/css/custom.css (wird nach dieser Datei geladen).
+ * Schriftgrößen in rem, damit sie der Schriftgröße im Browser folgen (1rem = 16 px).
+ */
+
+:root {
+	/* Farben */
+	--el-color-page: #ffec73;          /* Seitenhintergrund (Gelb) */
+	--el-color-surface: #ffffff;       /* Flächen: Kopfbereich, Karten */
+	--el-color-surface-alt: #f8f9fa;   /* leicht abgesetzte Flächen */
+	--el-color-text: #333333;
+	--el-color-muted: #666666;
+	--el-color-border: #dddddd;
+	--el-color-link: #000000;
+	--el-color-link-visited: #8000ff;
+	--el-color-link-hover: #8000ff;
+	--el-color-primary: #0073aa;       /* Schaltflächen, Hervorhebungen */
+	--el-color-primary-dark: #005a87;  /* Hover */
+	--el-color-primary-light: #e7f3ff; /* Hover-Hintergrund */
+	--el-color-focus: #0073aa;
+
+	/* Schrift */
+	--el-font: Verdana, Geneva, "DejaVu Sans", sans-serif;
+	--el-font-size: 0.875rem;          /* 14 px */
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
 body {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
+	font-family: var(--el-font);
+	font-size: var(--el-font-size);
+	line-height: 1.6;
+	color: var(--el-color-text);
+	background-color: var(--el-color-page);
 }
-A:link {
-        COLOR: #000000; TEXT-DECORATION: underline
+
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.125rem; }
+h4 { font-size: 1rem; }
+h5 { font-size: 0.875rem; }
+h6 { font-size: 0.75rem; }
+
+h2, h3, h4, h5, h6 {
+	font-weight: bold;
 }
-A:visited {
-        COLOR: #8000FF; TEXT-DECORATION: underline
+
+/* Links: ohne Gewicht (:where), damit Bausteine wie Schaltflächen eigene Farben setzen können */
+:where(a) {
+	color: var(--el-color-link);
+	text-decoration: underline;
 }
-A:active {
-        COLOR: #000000; TEXT-DECORATION: none
+
+:where(a:visited) {
+	color: var(--el-color-link-visited);
 }
-A:hover {
-        COLOR: #8000FF; TEXT-DECORATION: underline
+
+:where(a:hover) {
+	color: var(--el-color-link-hover);
 }
-BODY {
-        background-color: #FFEC73; FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+
+:where(a:active) {
+	text-decoration: none;
 }
-BODY.logo {
-         Background-color: #ffffff;
+
+/* Sichtbarer Rahmen bei Tastaturbedienung */
+:focus-visible {
+	outline: 2px solid var(--el-color-focus);
+	outline-offset: 2px;
 }
-DIV {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+
+/* Nur für Screenreader (wird u. a. von WordPress selbst verwendet) */
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important;
 }
-P {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
+
+/* "Zum Inhalt springen": erscheint bei Tastaturbedienung oben links */
+.skip-link:focus {
+	clip: auto;
+	clip-path: none;
+	height: auto;
+	width: auto;
+	margin: 0;
+	left: 8px;
+	top: 8px;
+	z-index: 100000;
+	padding: 10px 16px;
+	background: var(--el-color-surface);
+	color: var(--el-color-link);
+	font-weight: bold;
+	text-decoration: none;
+	box-shadow: 0 0 0 2px var(--el-color-focus);
 }
-TABLE {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-TD {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-TR {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-LI {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-OL {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-UL {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-FORM {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-opxion {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-SELECT {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-INPUT {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-BR {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-B {
-        FONT-SIZE: 14px; FONT-FAMILY: Verdana, Times New Roman, MS Sans Serif, Arial
-}
-H1 {
-        FONT-SIZE: 24px
-}
-H2 {
-        FONT-WEIGHT: bold; FONT-SIZE: 20px
-}
-H3 {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px
-}
-H4 {
-        FONT-WEIGHT: bold; FONT-SIZE: 16px
-}
-H5 {
-        FONT-WEIGHT: bold; FONT-SIZE: 14px
-}
-H6 {
-        FONT-WEIGHT: bold; FONT-SIZE: 12px
-}
-.size6 {
-        FONT-SIZE: 12px
-}
-.size7 {
-        FONT-SIZE: 13px
-}
-.size8 {
-        FONT-SIZE: 14px
-}
-.size9 {
-        FONT-SIZE: 15px
-}
-.size10 {
-        FONT-SIZE: 14px
-}
-.size11 {
-        FONT-SIZE: 17px
-}
-.size12 {
-        FONT-SIZE: 18px
-}
-.size13 {
-        FONT-SIZE: 19px
-}
-.size14 {
-        FONT-SIZE: 20px
-}
-.size15 {
-        FONT-SIZE: 21px
-}
-.size16 {
-        FONT-SIZE: 22px
-}
-.size18 {
-        FONT-SIZE: 24px
-}
-.lauf-txt {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
-}
-.navi {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
-}
-.ueb-txt {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff; FONT-FAMILY: Verdana
-}
-.ueb-navi {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff; FONT-FAMILY: Verdana
-}
+
+/*
+ * Klassen aus der früheren Website. Ältere Inhalte können sie noch verwenden.
+ */
+.size6 { font-size: 0.75rem; }
+.size7 { font-size: 0.8125rem; }
+.size8 { font-size: 0.875rem; }
+.size9 { font-size: 0.9375rem; }
+.size10 { font-size: 0.875rem; }
+.size11 { font-size: 1.0625rem; }
+.size12 { font-size: 1.125rem; }
+.size13 { font-size: 1.1875rem; }
+.size14 { font-size: 1.25rem; }
+.size15 { font-size: 1.3125rem; }
+.size16 { font-size: 1.375rem; }
+.size18 { font-size: 1.5rem; }
+
+.lauf-txt,
+.navi,
 .navi-left {
-        FONT-WEIGHT: bold; FONT-SIZE: 18px; COLOR: #ffffff
-}
-/* Navigation fix - display menu items horizontally */
-.primary-navigation .menu {
-	display: flex !important;
-	flex-wrap: wrap;
-	gap: 20px;
+	font-weight: bold;
+	font-size: 1.125rem;
+	color: #ffffff;
 }
 
-.primary-navigation .menu-item {
-	display: inline-block !important;
+.ueb-txt,
+.ueb-navi {
+	font-weight: bold;
+	font-size: 1.125rem;
+	color: #ffffff;
+	font-family: Verdana, sans-serif;
 }
 
-.primary-navigation .menu-item > a {
-	display: inline !important;
-}
-
-/* Override default list styles for navigation */
-.primary-navigation ul {
-	display: flex !important;
-	flex-wrap: wrap;
-	gap: 20px;
-	list-style: none !important;
-}
-
-.primary-navigation li {
-	display: inline-block !important;
-}
-
-/* Fahrzeug-Status Styling */
-.fahrzeuge-aktiv {
-    margin-bottom: 3em;
-}
-
-.fahrzeuge-archiv {
-    margin-top: 3em;
-    padding-top: 2em;
-    border-top: 2px solid #ddd;
-}
-
-.fahrzeuge-archiv h2 {
-    color: #666;
-    font-style: italic;
-}
-
-.fahrzeuge-ohne-status {
-    margin-top: 2em;
-    padding: 1em;
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 4px;
-}
-
-.fahrzeuge-ohne-status h2 {
-    color: #856404;
-    margin-top: 0;
-}
-
-.fahrzeug-inaktiv {
-    opacity: 0.8;
-}
-
-.fahrzeug-inaktiv .entry-title a {
-    color: #666;
-}
-
-.fahrzeug-ohne-status {
-    border-left: 4px solid #ffc107;
-}
-
-/* Admin Styles für Fahrzeug-Status */
-.fahrzeug-status-aktiv {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: bold;
-}
-
-.fahrzeug-status-inaktiv {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-weight: bold;
-}/* Content Wrapper und Sidebar Layout */
-.content-wrapper {
-    display: flex;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.content-wrapper.has-sidebar .main-content {
-    flex: 1;
-    max-width: calc(100% - 320px);
-}
-
-.primary-sidebar {
-    width: 280px;
-    flex-shrink: 0;
-}
-
-/* Sidebar Styling */
-.primary-sidebar .widget {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.primary-sidebar .widget-title {
-    margin: 0 0 15px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #007bff;
-    font-size: 1.2em;
-    color: #333;
-}
-
-/* Unterseiten Liste */
-.subpages-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.subpage-item {
-    margin-bottom: 8px;
-}
-
-.subpage-link {
-    display: block;
-    padding: 8px 12px;
-    color: #007bff;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.subpage-link:hover {
-    background-color: #e7f3ff;
-    color: #0056b3;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .content-wrapper {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .content-wrapper.has-sidebar .main-content {
-        max-width: 100%;
-    }
-
-    .primary-sidebar {
-        width: 100%;
-    }
-}
-
-/* Site Navigation Top - ganz oben positioniert */
-.site-navigation-top {
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-}
-
-.site-navigation-top .primary-navigation {
-    background: #f8f9fa;
-    padding: 10px 15px;
-    border-radius: 6px;
-    border: 1px solid #e9ecef;
-}
-
-.site-navigation-top .menu-item a {
-    font-weight: 600;
-    color: #000000 !important;
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.site-navigation-top .menu-item a:hover {
-    background-color: #e7f3ff;
-    color: #000000 !important;
-}
-
-/* Header Layout Anpassungen */
-.site-header {
-    margin-bottom: 40px;
-}
-
-.site-branding {
-    margin-bottom: 20px;
-}
-
-.site-header-bottom {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-top: 10px;
-}
-
-.site-search {
-    max-width: 300px;
-}
-
-
-/* Gesamte Tabelle */
-.sm-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    margin: 20px 0;
-}
-
-/* Tabellenlayout */
-.sm-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;
-}
-
-/* Tabellenzellen */
-.sm-table td {
-    vertical-align: top;
-    text-align: left;
-    padding: 12px 16px;
-    border: none;
-    border-right: 6px solid #777;
-    min-width: 160px;
-    background: transparent;
-}
-
-/* Keine rechte Linie an der letzten Spalte */
-.sm-table td:last-child {
-    border-right: none;
-}
-
-/* Links */
-.sm-table a {
-    color: #000080;
-    font-weight: 600;
-    text-decoration: none;
-    line-height: 1.5;
-}
-
-.sm-table a:hover {
-    text-decoration: underline;
-}
-
-/* Erste Hierarchieebene */
-.sm-table .sm-level-1 a {
-    color: #000;
-    font-weight: 700;
-}
-
-/* Zweite Hierarchieebene */
-.sm-table .sm-level-2 a {
-    color: #000080;
-    font-weight: 700;
-}
-
-/* Dritte und weitere Ebenen */
-.sm-table .sm-level-3 a,
-.sm-table .sm-level-4 a,
-.sm-table .sm-level-5 a {
-    color: #000;
-    font-weight: 400;
-    font-size: 14px;
-}
-
-/* Mobil: Tabelle horizontal scrollbar */
-@media (max-width: 768px) {
-    .sm-table td {
-        min-width: 140px;
-        padding: 10px;
-    }
+body.logo {
+	background-color: #ffffff;
 }

@@ -6,12 +6,13 @@
 get_header();
 ?>
 
-<main id="main" class="site-main">
+<main id="site-content" class="site-main">
 	<header class="page-header">
 		<h1 class="page-title">
 			<?php
 			printf(
-				esc_html__( 'Search Results for: %s', 'el-team-wp-theme' ),
+				/* translators: %s: Suchbegriff */
+				esc_html__( 'Suchergebnisse für: %s', 'el-team-wp-theme' ),
 				'<span>' . get_search_query() . '</span>'
 			);
 			?>
@@ -82,17 +83,15 @@ get_header();
 			<?php
 		}
 
-		// Posts navigation
-		?>
-		<nav class="posts-navigation">
-			<div class="nav-previous">
-				<?php next_posts_link( esc_html__( '&larr; Ältere Beiträge', 'el-team-wp-theme' ) ); ?>
-			</div>
-			<div class="nav-next">
-				<?php previous_posts_link( esc_html__( 'Neuere Beiträge &rarr;', 'el-team-wp-theme' ) ); ?>
-			</div>
-		</nav>
-		<?php
+		the_posts_pagination(
+			array(
+				'mid_size'           => 1,
+				'prev_text'          => esc_html__( '← Vorherige Treffer', 'el-team-wp-theme' ),
+				'next_text'          => esc_html__( 'Weitere Treffer →', 'el-team-wp-theme' ),
+				'screen_reader_text' => esc_html__( 'Seiten der Suchergebnisse', 'el-team-wp-theme' ),
+				'aria_label'         => esc_html__( 'Suchergebnisse', 'el-team-wp-theme' ),
+			)
+		);
 	} else {
 		?>
 		<p><?php esc_html_e( 'Es wurden keine Ergebnisse gefunden.', 'el-team-wp-theme' ); ?></p>
