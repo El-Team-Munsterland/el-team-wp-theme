@@ -332,18 +332,32 @@ function el_team_front_press_cat_id() {
 }
 
 /**
- * Ist ein Beitrag nur der Presse-Kategorie zugeordnet (keiner weiteren Kategorie)?
+ * IDs der Presse-Kategorie und ihrer Unterkategorien (wie auf der Seite „Presse Übersicht“).
+ *
+ * @return int[] leer, wenn keine Presse-Kategorie gewählt ist
+ */
+function el_team_front_press_cat_ids() {
+	$press_cat_id = el_team_front_press_cat_id();
+	if ( ! $press_cat_id ) {
+		return array();
+	}
+	$children = get_term_children( $press_cat_id, 'category' );
+	return array_merge( array( $press_cat_id ), is_array( $children ) ? array_map( 'intval', $children ) : array() );
+}
+
+/**
+ * Ist ein Beitrag nur der Presse-Kategorie (oder ihren Unterkategorien) zugeordnet?
  *
  * @param int|WP_Post $post Beitrag
  * @return bool
  */
 function el_team_is_press_only( $post ) {
-	$press_cat_id = el_team_front_press_cat_id();
-	if ( ! $press_cat_id ) {
+	$press_cat_ids = el_team_front_press_cat_ids();
+	if ( ! $press_cat_ids ) {
 		return false;
 	}
-	$categories = wp_get_post_categories( is_object( $post ) ? $post->ID : $post );
-	return array( $press_cat_id ) === array_map( 'intval', $categories );
+	$categories = array_map( 'intval', wp_get_post_categories( is_object( $post ) ? $post->ID : $post ) );
+	return $categories && ! array_diff( $categories, $press_cat_ids );
 }
 
 /**
@@ -401,24 +415,27 @@ function el_team_front_news_posts() {
 }
 
 /**
- * Neueste Presseartikel für die Startseite: Beiträge, die nur der Presse-Kategorie zugeordnet sind.
+ * Neueste Presseartikel für die Startseite: alle Beiträge der Presse-Kategorie, auch solche
+ * mit weiteren Kategorien. Was schon unter „Neues aus dem Team“ steht, erscheint hier nicht
+ * ein zweites Mal.
  *
+ * @param WP_Post[] $exclude Beiträge, die schon auf der Startseite stehen
  * @return WP_Post[]
  */
-function el_team_front_press_posts() {
-	$count        = el_team_front_settings()['press_count'];
-	$press_cat_id = el_team_front_press_cat_id();
-	if ( $count < 1 || ! $press_cat_id ) {
+function el_team_front_press_posts( $exclude = array() ) {
+	$count         = el_team_front_settings()['press_count'];
+	$press_cat_ids = el_team_front_press_cat_ids();
+	if ( $count < 1 || ! $press_cat_ids ) {
 		return array();
 	}
-	return el_team_front_filtered_posts(
-		array(
-			'post_type'    => 'post',
-			'category__in' => array( $press_cat_id ),
-		),
-		'el_team_is_press_only',
-		$count
-	);
+	return get_posts( array(
+		'post_type'           => 'post',
+		'category__in'        => $press_cat_ids,
+		'post__not_in'        => wp_list_pluck( $exclude, 'ID' ),
+		'posts_per_page'      => $count,
+		'ignore_sticky_posts' => true,
+		'no_found_rows'       => true,
+	) );
 }
 
 /**

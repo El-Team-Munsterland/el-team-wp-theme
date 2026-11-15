@@ -78,7 +78,7 @@ get_header();
 	endif;
 
 	$el_team_news      = el_team_front_news_posts();
-	$el_team_press     = el_team_front_press_posts();
+	$el_team_press     = el_team_front_press_posts( $el_team_news );
 	$el_team_posts_url = el_team_front_posts_url();
 	$el_team_press_url = $el_team_press ? el_team_front_press_url() : '';
 	if ( $el_team_news || $el_team_press ) :
@@ -98,7 +98,7 @@ get_header();
 							setup_postdata( $post );
 							// Kategorie für die Zeile über dem Titel: die erste, die nicht Presse ist
 							$el_team_categories = array_values( array_filter( get_the_category(), function ( $category ) {
-								return (int) $category->term_id !== el_team_front_press_cat_id();
+								return ! in_array( (int) $category->term_id, el_team_front_press_cat_ids(), true );
 							} ) );
 							?>
 							<a class="front-card" href="<?php the_permalink(); ?>">

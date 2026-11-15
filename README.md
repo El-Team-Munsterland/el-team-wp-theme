@@ -61,3 +61,7 @@ Presseartikeln (Presse plus z. B. Werkstatt erscheint dort), „Presse“ nur Be
 ausschließlich der Presse-Kategorie zugeordnet sind. Presseartikel ohne Zeitungskürzel
 erhalten auf der Startseite und in der Presse-Übersicht das eigene Logo (Website-Icon,
 sonst Logo der Website).
+
+Ab 1.9.2 zeigt „Presse“ auf der Startseite alle Beiträge der Presse-Kategorie, auch solche
+mit weiteren Kategorien; was schon unter „Neues aus dem Team“ steht, wird dort nicht
+wiederholt.
