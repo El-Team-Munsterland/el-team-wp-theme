@@ -53,25 +53,29 @@ get_header();
 		<?php
 	endwhile;
 
+	// Nächste Termine (Plugin "El-Team Termine")
+	$el_team_termine = el_team_front_termine();
+	if ( $el_team_termine ) :
+		?>
+		<section class="front-section front-termine" aria-labelledby="front-termine-title">
+			<div class="front-section__head">
+				<h2 id="front-termine-title"><?php echo esc_html( $el_team_front['termine_title'] ); ?></h2>
+				<a class="front-section__more" href="<?php echo esc_url( get_post_type_archive_link( 'termin' ) ); ?>"><?php esc_html_e( 'Alle Termine →', 'el-team-wp-theme' ); ?></a>
+			</div>
+			<?php echo el_team_termine_liste_html( $el_team_termine ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped im Plugin. ?>
+		</section>
+		<?php
+	endif;
+
 	// Kacheln zu ausgewählten Seiten
-	$el_team_tiles = array_filter( $el_team_front['tiles'], function ( $tile ) {
-		return 'publish' === get_post_status( $tile['page'] );
-	} );
-	if ( $el_team_tiles ) :
+	if ( el_team_front_tiles() ) :
 		?>
 		<section class="front-section" aria-labelledby="front-tiles-title">
 			<div class="front-section__head">
 				<h2 id="front-tiles-title"><?php echo esc_html( $el_team_front['tiles_title'] ); ?></h2>
 			</div>
 			<div class="front-tiles">
-				<?php foreach ( $el_team_tiles as $el_team_tile ) : ?>
-					<a class="front-tile" href="<?php echo esc_url( get_permalink( $el_team_tile['page'] ) ); ?>">
-						<strong class="front-tile__title"><?php echo esc_html( get_the_title( $el_team_tile['page'] ) ); ?></strong>
-						<span class="front-tile__text">
-							<?php echo esc_html( '' !== $el_team_tile['text'] ? $el_team_tile['text'] : wp_trim_words( get_the_excerpt( $el_team_tile['page'] ), 14 ) ); ?>
-						</span>
-					</a>
-				<?php endforeach; ?>
+				<?php get_template_part( 'template-parts/front/kacheln' ); ?>
 			</div>
 		</section>
 		<?php

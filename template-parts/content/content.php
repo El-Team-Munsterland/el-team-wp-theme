@@ -16,6 +16,10 @@
 		}
 		?>
 
+		<?php
+		// Termine (Plugin "El-Team Termine") zeigen Datum und Ort im eigenen Infokasten
+		if ( 'termin' !== get_post_type() ) :
+			?>
 		<div class="entry-meta">
 			<?php
 			echo wp_kses_post(
@@ -27,6 +31,7 @@
 			);
 			?>
 		</div>
+		<?php endif; ?>
 	</header>
 
 	<?php

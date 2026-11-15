@@ -31,11 +31,13 @@ get_header();
 			get_template_part( 'template-parts/content/content' );
 		}
 
+		// Termine (Plugin "El-Team Termine") sind nach Termin sortiert, nicht nach Alter
+		$el_team_termine = is_post_type_archive( 'termin' ) || is_tax( 'terminart' );
 		the_posts_pagination(
 			array(
 				'mid_size'           => 1,
-				'prev_text'          => esc_html__( '← Neuere Beiträge', 'el-team-wp-theme' ),
-				'next_text'          => esc_html__( 'Ältere Beiträge →', 'el-team-wp-theme' ),
+				'prev_text'          => $el_team_termine ? esc_html__( '← Vorherige Seite', 'el-team-wp-theme' ) : esc_html__( '← Neuere Beiträge', 'el-team-wp-theme' ),
+				'next_text'          => $el_team_termine ? esc_html__( 'Weitere Termine →', 'el-team-wp-theme' ) : esc_html__( 'Ältere Beiträge →', 'el-team-wp-theme' ),
 				'screen_reader_text' => esc_html__( 'Seiten der Beitragsliste', 'el-team-wp-theme' ),
 				'aria_label'         => esc_html__( 'Beitragsliste', 'el-team-wp-theme' ),
 			)

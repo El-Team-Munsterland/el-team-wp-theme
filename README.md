@@ -65,3 +65,8 @@ sonst Logo der Website).
 Ab 1.9.2 zeigt „Presse“ auf der Startseite alle Beiträge der Presse-Kategorie, auch solche
 mit weiteren Kategorien; was schon unter „Neues aus dem Team“ steht, wird dort nicht
 wiederholt.
+
+Ab 1.10 gibt es eine eigene 404-Seite (Suche, Startseite, Kacheln), Seiten mit Blöcken in
+weiter oder voller Breite (z. B. Schaltpläne) stehen auf einer weißen Fläche über die ganze
+Breite, und die Startseite zeigt mit dem Plugin **El-Team Termine** (Repo WP-Plugins) die
+nächsten Termine.

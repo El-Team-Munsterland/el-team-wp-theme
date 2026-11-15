@@ -936,6 +936,17 @@ article.search::after {
 	color: #222222;
 }
 
+/* Nächste Termine (Plugin "El-Team Termine"): nebeneinander, solange Platz ist */
+.front-termine .el-termine {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 0 28px;
+}
+
+.front-termine .el-termine__eintrag:last-child {
+	border-bottom: 1px solid var(--el-color-line);
+}
+
 /* Kacheln */
 .front-tiles {
 	display: grid;
@@ -1119,6 +1130,63 @@ body:has(main.front) .site-footer__bottom {
 	border-top: 0;
 }
 
+/* ------------------------------------------------------------------ Seite nicht gefunden (404.php) */
+.not-found__code {
+	margin: 0;
+	font-size: 4rem;
+	font-weight: bold;
+	line-height: 1;
+	color: var(--el-color-page);
+	-webkit-text-stroke: 2px #222222;
+}
+
+.not-found .page-title {
+	margin-top: 10px;
+}
+
+.not-found__search {
+	margin: 24px 0 8px;
+	max-width: 480px;
+}
+
+.not-found__search form {
+	display: flex;
+	gap: 8px;
+}
+
+.not-found__search label {
+	flex: 1;
+}
+
+.not-found__search input[type="search"] {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 9px 14px;
+	border: 1px solid var(--el-color-border);
+	border-radius: 999px;
+	font: inherit;
+}
+
+.not-found__search input[type="submit"],
+.not-found__search button {
+	padding: 9px 18px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--el-color-primary);
+	color: #ffffff;
+	font: inherit;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.not-found__tiles {
+	margin-top: 40px;
+}
+
+.not-found__tiles h2 {
+	margin: 0 0 16px;
+}
+
 /* ------------------------------------------------------------------ Schmale Bildschirme */
 @media (max-width: 900px) {
 	.front-cols {
@@ -1283,6 +1351,35 @@ html:has(.page-content > .alignfull) {
 .content-wrapper.has-sidebar .page-content > .alignfull {
 	margin-left: 0;
 	margin-right: 0;
+}
+
+/* Seiten mit weiter oder voller Breite (z. B. die Schaltpläne aus CityEL Werkstatt):
+   Die weiße Karte wird zur weißen Fläche über die ganze Fensterbreite, damit breite Blöcke
+   nicht seitlich auf dem Gelb stehen. Der übrige Inhalt bleibt in der 1100-px-Spalte. */
+.content-wrapper:not(.has-sidebar):has(> main :is(.entry-content, .page-content) > :is(.alignwide, .alignfull)) {
+	max-width: none;
+	padding: 0;
+}
+
+main#site-content:not(.site-main--list):not(.front):has(:is(.entry-content, .page-content) > :is(.alignwide, .alignfull)) {
+	margin-left: 0;
+	margin-right: 0;
+	border-radius: 0;
+	box-shadow: none;
+	padding-left: max(20px, calc((100% - 1100px) / 2 + 44px));
+	padding-right: max(20px, calc((100% - 1100px) / 2 + 44px));
+	margin-bottom: 30px;
+}
+
+body:has(main#site-content:not(.site-main--list):not(.front) :is(.entry-content, .page-content) > :is(.alignwide, .alignfull)):not(:has(.content-wrapper.has-sidebar)) .site-footer {
+	margin-top: 0;
+}
+
+.content-wrapper.has-sidebar main#site-content:has(:is(.entry-content, .page-content) > :is(.alignwide, .alignfull)) {
+	margin: 0 0 40px;
+	border-radius: var(--el-radius);
+	box-shadow: var(--el-shadow);
+	padding: 36px 44px;
 }
 
 /* Externe Links im Inhaltsbereich (inc/external-links.php)

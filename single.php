@@ -15,6 +15,8 @@ get_header();
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <header class="entry-header">
                     <h1 class="entry-title"><?php echo el_team_title_with_presselogo(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?></h1>
+                    <?php // Termine (Plugin "El-Team Termine") zeigen Datum und Ort im eigenen Infokasten ?>
+                    <?php if ( 'termin' !== get_post_type() ) : ?>
                     <div class="entry-meta">
                         <span class="posted-on">
                             <?php
@@ -31,6 +33,7 @@ get_header();
                         }
                         ?>
                     </div>
+                    <?php endif; ?>
                 </header>
 
                 <div class="entry-content">
@@ -51,13 +54,18 @@ get_header();
             </article>
 
             <?php
-            // Navigation zwischen Posts (optional)
-            the_post_navigation(
-                array(
-                    'prev_text' => esc_html__( '&larr; Vorheriger Beitrag', 'el-team-wp-theme' ),
-                    'next_text' => esc_html__( 'Nächster Beitrag &rarr;', 'el-team-wp-theme' ),
-                )
-            );
+            if ( 'termin' === get_post_type() ) {
+                // Termine: zurück zur Übersicht statt Blättern nach Veröffentlichungsdatum
+                echo '<nav class="navigation post-navigation"><div class="nav-links"><div class="nav-previous"><a href="' . esc_url( get_post_type_archive_link( 'termin' ) ) . '">' . esc_html__( '← Alle Termine', 'el-team-wp-theme' ) . '</a></div></div></nav>';
+            } else {
+                // Navigation zwischen Posts (optional)
+                the_post_navigation(
+                    array(
+                        'prev_text' => esc_html__( '&larr; Vorheriger Beitrag', 'el-team-wp-theme' ),
+                        'next_text' => esc_html__( 'Nächster Beitrag &rarr;', 'el-team-wp-theme' ),
+                    )
+                );
+            }
         }
     }
     ?>

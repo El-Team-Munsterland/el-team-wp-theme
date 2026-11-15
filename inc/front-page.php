@@ -26,8 +26,10 @@ function el_team_front_defaults() {
 			array( 'page' => 0, 'label' => '' ),
 			array( 'page' => 0, 'label' => '' ),
 		),
-		'tiles_title' => __( 'Was wir machen', 'el-team-wp-theme' ),
-		'tiles'       => array(),
+		'tiles_title'   => __( 'Was wir machen', 'el-team-wp-theme' ),
+		'tiles'         => array(),
+		'termine_title' => __( 'Nächste Termine', 'el-team-wp-theme' ),
+		'termine_count' => 3,
 		'news_title'  => __( 'Neues aus dem Team', 'el-team-wp-theme' ),
 		'news_count'  => 2,
 		'press_title' => __( 'Presse', 'el-team-wp-theme' ),
@@ -88,8 +90,10 @@ function el_team_front_sanitize( $input ) {
 	return array(
 		'hero_title'  => $text( 'hero_title' ),
 		'buttons'     => $buttons,
-		'tiles_title' => $text( 'tiles_title' ),
-		'tiles'       => $tiles,
+		'tiles_title'   => $text( 'tiles_title' ),
+		'tiles'         => $tiles,
+		'termine_title' => $text( 'termine_title' ),
+		'termine_count' => $count( 'termine_count', 10 ),
 		'news_title'  => $text( 'news_title' ),
 		'news_count'  => $count( 'news_count', 12 ),
 		'press_title' => $text( 'press_title' ),
@@ -271,6 +275,27 @@ function el_team_front_render_settings_page() {
 			<template id="el-team-tile-template"><?php echo el_team_front_tile_row( '__INDEX__', array( 'page' => 0, 'text' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?></template>
 			<p><button type="button" class="button el-team-tile-add" hidden><?php esc_html_e( 'Kachel hinzufügen', 'el-team-wp-theme' ); ?></button></p>
 
+			<?php if ( function_exists( 'el_team_termine_kommend' ) ) : ?>
+				<h2><?php esc_html_e( 'Termine', 'el-team-wp-theme' ); ?></h2>
+				<table class="form-table" role="presentation">
+					<tr>
+						<th scope="row"><label for="el-team-termine-title"><?php esc_html_e( 'Überschrift', 'el-team-wp-theme' ); ?></label></th>
+						<td><input type="text" id="el-team-termine-title" class="regular-text" name="<?php echo esc_attr( $name ); ?>[termine_title]" value="<?php echo esc_attr( $settings['termine_title'] ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="el-team-termine-count"><?php esc_html_e( 'Anzahl Termine', 'el-team-wp-theme' ); ?></label></th>
+						<td>
+							<input type="number" id="el-team-termine-count" class="small-text" min="0" max="10" name="<?php echo esc_attr( $name ); ?>[termine_count]" value="<?php echo esc_attr( $settings['termine_count'] ); ?>">
+							<p class="description"><?php esc_html_e( 'Die nächsten Termine aus dem Plugin „El-Team Termine“, direkt unter der Begrüßung. Ohne kommende Termine oder mit 0 entfällt der Bereich.', 'el-team-wp-theme' ); ?></p>
+						</td>
+					</tr>
+				</table>
+			<?php else : ?>
+				<?php // Ohne Plugin die gespeicherten Werte unverändert mitschicken ?>
+				<input type="hidden" name="<?php echo esc_attr( $name ); ?>[termine_title]" value="<?php echo esc_attr( $settings['termine_title'] ); ?>">
+				<input type="hidden" name="<?php echo esc_attr( $name ); ?>[termine_count]" value="<?php echo esc_attr( $settings['termine_count'] ); ?>">
+			<?php endif; ?>
+
 			<h2><?php esc_html_e( 'Neueste Beiträge und Presse', 'el-team-wp-theme' ); ?></h2>
 			<table class="form-table" role="presentation">
 				<tr>
@@ -318,6 +343,30 @@ function el_team_front_render_settings_page() {
 		</form>
 	</div>
 	<?php
+}
+
+/**
+ * Nächste Termine aus dem Plugin "El-Team Termine" (leer ohne Plugin).
+ *
+ * @return WP_Post[]
+ */
+function el_team_front_termine() {
+	$count = el_team_front_settings()['termine_count'];
+	if ( $count < 1 || ! function_exists( 'el_team_termine_kommend' ) ) {
+		return array();
+	}
+	return el_team_termine_kommend( $count );
+}
+
+/**
+ * Kacheln aus Design → Startseite, nur veröffentlichte Seiten.
+ *
+ * @return array Liste aus page (ID) und text
+ */
+function el_team_front_tiles() {
+	return array_values( array_filter( el_team_front_settings()['tiles'], function ( $tile ) {
+		return 'publish' === get_post_status( $tile['page'] );
+	} ) );
 }
 
 /**
