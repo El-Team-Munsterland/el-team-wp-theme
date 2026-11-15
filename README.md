@@ -48,3 +48,10 @@ Kategorien), Blättern in Beitragslisten und Archiven, ein Menü-Knopf auf dem H
 und Solarchallenge nutzen eine gemeinsame Vorlage
 (`template-parts/content/kategorie-uebersicht.php`). Die Versionsnummer wird nur noch in
 `style.css` gepflegt.
+
+Ab 1.9 hat die Website ein neues Aussehen: Das Gelb bleibt Hintergrund, Inhalte stehen auf
+weißen Karten, Kopfbereich mit Suche und Menü in einer Zeile, Übersichten als Listen mit
+Zeitungslogos. Schrift ist Atkinson Hyperlegible Next (SIL Open Font License, im Theme unter
+`assets/fonts/`, kein fremder Server). Neue Startseite (`front-page.php`) mit Begrüßung,
+Kacheln, neuesten Beiträgen und Presse, einstellbar unter **Design → Startseite**; dort
+entfällt die Beitragsliste im Footer.

@@ -6,7 +6,12 @@
 ?>
 	<footer id="colophon" class="site-footer">
 		<div class="site-footer__inner">
-			<?php get_template_part( 'template-parts/footer/latest-posts' ); ?>
+			<?php
+			// Die Startseite zeigt die neuesten Beiträge schon groß (front-page.php); dort entfällt die Liste im Footer.
+			if ( ! ( is_front_page() && ! is_home() ) ) {
+				get_template_part( 'template-parts/footer/latest-posts' );
+			}
+			?>
 
 			<div class="site-footer__content">
 				<?php

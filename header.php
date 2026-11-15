@@ -23,19 +23,25 @@
 			}
 			?>
 			<div class="site-header-content">
-				<div class="site-title-wrapper">
-					<?php
-					// Nur auf der Blog-Startseite ist der Seitenname die Hauptüberschrift; sonst hat jede Seite ihr eigenes h1.
-					$el_team_title_tag = ( is_front_page() && is_home() ) ? 'h1' : 'p';
-					?>
-					<<?php echo $el_team_title_tag; ?> class="site-title">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php bloginfo( 'name' ); ?>
-						</a>
-					</<?php echo $el_team_title_tag; ?>>
-					<p class="site-description">
-						<?php bloginfo( 'description' ); ?>
-					</p>
+				<div class="site-header-top">
+					<div class="site-title-wrapper">
+						<?php
+						// Nur auf der Blog-Startseite ist der Seitenname die Hauptüberschrift; sonst hat jede Seite ihr eigenes h1.
+						$el_team_title_tag = ( is_front_page() && is_home() ) ? 'h1' : 'p';
+						?>
+						<<?php echo $el_team_title_tag; ?> class="site-title">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+								<?php bloginfo( 'name' ); ?>
+							</a>
+						</<?php echo $el_team_title_tag; ?>>
+						<p class="site-description">
+							<?php bloginfo( 'description' ); ?>
+						</p>
+					</div>
+
+					<div class="site-search">
+						<?php get_search_form(); ?>
+					</div>
 				</div>
 
 				<div class="site-navigation-top">
@@ -43,12 +49,6 @@
 					get_template_part( 'template-parts/header/navigation' );
 					?>
 				</div>
-			</div>
-		</div>
-
-		<div class="site-header-bottom">
-			<div class="site-search">
-				<?php get_search_form(); ?>
 			</div>
 		</div>
 	</header>

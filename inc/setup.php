@@ -27,6 +27,9 @@ function el_team_setup_theme() {
 
 	// Add support for post thumbnails
 	add_theme_support( 'post-thumbnails' );
+
+	// Textauszug auch für Seiten (Kurztext der Kacheln auf der Startseite)
+	add_post_type_support( 'page', 'excerpt' );
 	set_post_thumbnail_size( 825, 550, true );
 
 	// Add support for responsive embeds

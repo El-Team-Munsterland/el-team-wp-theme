@@ -4,9 +4,9 @@ Theme URI: https://github.com/El-Team-Munsterland/el-team-wp-theme
 Author: Lukas Nacke
 Author URI: https://el-team-muensterland.de
 Description: Ein WordPress Theme für das El Team
-Version: 1.8.0
+Version: 1.9.0
 Requires at least: 5.5
-Tested up to: 6.3
+Tested up to: 7.1
 Requires PHP: 7.4
 License: GPL v3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,40 @@ This theme, like WordPress, is licensed under the GPL.
  * Schriftgrößen in rem, damit sie der Schriftgröße im Browser folgen (1rem = 16 px).
  */
 
+/* Schrift: Atkinson Hyperlegible Next (SIL Open Font License, assets/fonts/OFL-Atkinson-Hyperlegible-Next.txt),
+   im Theme gespeichert und auf westeuropäische Zeichen reduziert – kein Abruf von fremden Servern. */
+@font-face {
+	font-family: "Atkinson Hyperlegible Next";
+	src: url("assets/fonts/atkinson-hyperlegible-next-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Atkinson Hyperlegible Next";
+	src: url("assets/fonts/atkinson-hyperlegible-next-bold.woff2") format("woff2");
+	font-weight: 600 800;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Atkinson Hyperlegible Next";
+	src: url("assets/fonts/atkinson-hyperlegible-next-italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Atkinson Hyperlegible Next";
+	src: url("assets/fonts/atkinson-hyperlegible-next-bold-italic.woff2") format("woff2");
+	font-weight: 600 800;
+	font-style: italic;
+	font-display: swap;
+}
+
 :root {
 	/* Farben */
 	--el-color-page: #ffec73;          /* Seitenhintergrund (Gelb) */
@@ -39,10 +73,18 @@ This theme, like WordPress, is licensed under the GPL.
 	--el-color-primary-dark: #005a87;  /* Hover */
 	--el-color-primary-light: #e7f3ff; /* Hover-Hintergrund */
 	--el-color-focus: #0073aa;
+	--el-color-tint: #fffbe0;          /* helles Gelb für Kacheln */
+	--el-color-tint-border: #f1e6a6;
+	--el-color-line: #ece7cf;          /* Trennlinien auf weißen Flächen */
+
+	/* Flächen (Karten) */
+	--el-radius: 12px;
+	--el-radius-small: 8px;
+	--el-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 
 	/* Schrift */
-	--el-font: Verdana, Geneva, "DejaVu Sans", sans-serif;
-	--el-font-size: 0.875rem;          /* 14 px */
+	--el-font: "Atkinson Hyperlegible Next", Verdana, Geneva, sans-serif;
+	--el-font-size: 1rem;              /* 16 px */
 }
 
 html {
@@ -59,7 +101,7 @@ body {
 	background-color: var(--el-color-page);
 }
 
-h1 { font-size: 1.5rem; }
+h1 { font-size: 1.75rem; }
 h2 { font-size: 1.25rem; }
 h3 { font-size: 1.125rem; }
 h4 { font-size: 1rem; }

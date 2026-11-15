@@ -1,7 +1,7 @@
 <?php
 /**
  * Übersichtsseite einer Kategorie: Seiteninhalt und darunter alle Beiträge der Kategorie
- * als Tabelle (Datum, Titel), nach Jahren gruppiert. Zeitungskürzel im Titel ("rn: …")
+ * als Liste (Datum, Titel), nach Jahren gruppiert. Zeitungskürzel im Titel ("rn: …")
  * erscheinen als Logo.
  *
  * Genutzt von page-presse.php, page-werkstatt.php und page-scm.php:
@@ -25,8 +25,7 @@ get_header();
 			<?php the_content(); ?>
 		</div>
 
-		<table class="kategorie-uebersicht kategorie-uebersicht--<?php echo esc_attr( $el_team_kategorie ); ?>">
-			<tbody>
+		<div class="kategorie-uebersicht kategorie-uebersicht--<?php echo esc_attr( $el_team_kategorie ); ?>">
 			<?php
 			$el_team_query = new WP_Query( array(
 				'category_name'  => $el_team_kategorie,
@@ -43,42 +42,40 @@ get_header();
 					$el_team_query->the_post();
 					$el_team_post_year = get_the_date( 'Y' );
 
-					// Wenn Jahr sich ändert, Jahres-Header-Zeile einfügen
+					// Neues Jahr: vorherige Liste schließen, Überschrift und neue Liste beginnen
 					if ( $el_team_post_year !== $el_team_current_year ) {
+						if ( null !== $el_team_current_year ) {
+							echo '</ul>';
+						}
 						?>
-						<tr class="kategorie-uebersicht__jahr">
-							<td colspan="2"><?php echo esc_html( $el_team_post_year ); ?></td>
-						</tr>
+						<h2 class="kategorie-uebersicht__jahr"><?php echo esc_html( $el_team_post_year ); ?></h2>
+						<ul class="kategorie-uebersicht__liste">
 						<?php
 						$el_team_current_year = $el_team_post_year;
 					}
 					?>
-					<tr>
-						<td class="kategorie-uebersicht__datum"><time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></time></td>
-						<td>
-							<a href="<?php echo esc_url( get_permalink() ); ?>">
-								<?php echo el_team_title_with_presselogo(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?>
-							</a>
-						</td>
-					</tr>
+					<li class="kategorie-uebersicht__eintrag">
+						<time class="kategorie-uebersicht__datum" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></time>
+						<a href="<?php echo esc_url( get_permalink() ); ?>">
+							<?php echo el_team_title_with_presselogo(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?>
+						</a>
+					</li>
 					<?php
 				endwhile;
+				echo '</ul>';
 				wp_reset_postdata();
 			else :
 				?>
-				<tr>
-					<td colspan="2">
-						<?php
-						/* translators: %s: Name der Kategorie */
-						echo esc_html( sprintf( __( 'Keine Beiträge in der Kategorie „%s“ gefunden.', 'el-team-wp-theme' ), $el_team_bezeichnung ) );
-						?>
-					</td>
-				</tr>
+				<p>
+					<?php
+					/* translators: %s: Name der Kategorie */
+					echo esc_html( sprintf( __( 'Keine Beiträge in der Kategorie „%s“ gefunden.', 'el-team-wp-theme' ), $el_team_bezeichnung ) );
+					?>
+				</p>
 				<?php
 			endif;
 			?>
-			</tbody>
-		</table>
+		</div>
 
 	</main>
 

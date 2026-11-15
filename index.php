@@ -8,7 +8,7 @@
 get_header();
 ?>
 
-<main id="site-content" class="site-main">
+<main id="site-content" class="site-main site-main--list">
 	<?php
 	if ( is_archive() ) {
 		?>

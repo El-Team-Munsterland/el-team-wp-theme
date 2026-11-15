@@ -20,3 +20,6 @@ Ausführliche Beschreibung im Adminbereich unter Design → Theme-Dokumentation.
 * Symbol "external-link" aus Lucide (https://lucide.dev), ISC-Lizenz, abgeleitet aus
   Feather (https://feathericons.com), MIT-Lizenz. Eingebettet in assets/css/custom.css,
   Lizenztexte am Ende dieser Datei.
+* Schrift Atkinson Hyperlegible Next (https://github.com/googlefonts/atkinson-hyperlegible-next),
+  SIL Open Font License 1.1, auf westeuropäische Zeichen reduziert. Dateien und Lizenztext in
+  assets/fonts/.

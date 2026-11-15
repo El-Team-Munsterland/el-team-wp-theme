@@ -21,6 +21,7 @@ require_once EL_TEAM_THEME_DIR . '/inc/enqueue.php';
 require_once EL_TEAM_THEME_DIR . '/inc/plugin-compat.php';
 require_once EL_TEAM_THEME_DIR . '/inc/footer-posts.php';
 require_once EL_TEAM_THEME_DIR . '/inc/external-links.php';
+require_once EL_TEAM_THEME_DIR . '/inc/front-page.php';
 
 /**
  * Include theme custom functions
@@ -71,6 +72,34 @@ function el_team_split_title_prefix( $title ) {
 }
 
 /**
+ * Logo einer Zeitung als img-Tag.
+ *
+ * @param string $prefix Schlüssel aus el_team_get_presselogo_map, z. B. "rn"
+ * @return string HTML, leer bei unbekanntem Präfix
+ */
+function el_team_presselogo_img( $prefix ) {
+	static $sizes = array();
+
+	$logo_map = el_team_get_presselogo_map();
+	if ( ! isset( $logo_map[ $prefix ] ) ) {
+		return '';
+	}
+	$logo_file = $logo_map[ $prefix ];
+	if ( ! isset( $sizes[ $logo_file ] ) ) {
+		$size                = @getimagesize( EL_TEAM_THEME_DIR . '/assets/images/presselogo/' . $logo_file );
+		$sizes[ $logo_file ] = $size ? sprintf( ' width="%d" height="%d"', $size[0], $size[1] ) : '';
+	}
+
+	return sprintf(
+		'<img src="%s" alt="%s"%s class="presselogo">',
+		esc_url( EL_TEAM_THEME_URI . '/assets/images/presselogo/' . $logo_file ),
+		/* translators: %s: Kürzel der Zeitung, z. B. RN */
+		esc_attr( sprintf( __( '%s Logo', 'el-team-wp-theme' ), strtoupper( $prefix ) ) ),
+		$sizes[ $logo_file ]
+	);
+}
+
+/**
  * Prüft, ob ein Titel mit einem definierten Präfix beginnt und ersetzt diesen durch ein Logo
  *
  * Erwartet den Titel so, wie er gespeichert ist (mit Präfix), z. B. aus el_team_title_with_presselogo().
@@ -79,28 +108,12 @@ function el_team_split_title_prefix( $title ) {
  * @return string Der Titel mit Logo oder Original-Titel (HTML, escaped)
  */
 function el_team_replace_title_prefix_with_logo( $title ) {
-	static $sizes = array();
-
 	list( $prefix, $clean_title ) = el_team_split_title_prefix( $title );
 	$clean_title = esc_html( wptexturize( $clean_title ) );
 	if ( null === $prefix ) {
 		return $clean_title;
 	}
-
-	$logo_file = el_team_get_presselogo_map()[ $prefix ];
-	if ( ! isset( $sizes[ $logo_file ] ) ) {
-		$size                 = @getimagesize( EL_TEAM_THEME_DIR . '/assets/images/presselogo/' . $logo_file );
-		$sizes[ $logo_file ] = $size ? sprintf( ' width="%d" height="%d"', $size[0], $size[1] ) : '';
-	}
-
-	return sprintf(
-		'<img src="%s" alt="%s"%s class="presselogo">%s',
-		esc_url( EL_TEAM_THEME_URI . '/assets/images/presselogo/' . $logo_file ),
-		/* translators: %s: Kürzel der Zeitung, z. B. RN */
-		esc_attr( sprintf( __( '%s Logo', 'el-team-wp-theme' ), strtoupper( $prefix ) ) ),
-		$sizes[ $logo_file ],
-		$clean_title
-	);
+	return el_team_presselogo_img( $prefix ) . $clean_title;
 }
 
 /**

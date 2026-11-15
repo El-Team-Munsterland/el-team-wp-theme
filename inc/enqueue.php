@@ -42,3 +42,16 @@ function el_team_enqueue_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'el_team_enqueue_scripts' );
+
+/**
+ * Normale und fette Schrift früh laden, damit der Text nicht erst in der Ersatzschrift erscheint.
+ */
+function el_team_preload_fonts() {
+	foreach ( array( 'regular', 'bold' ) as $el_team_weight ) {
+		printf(
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( EL_TEAM_THEME_URI . '/assets/fonts/atkinson-hyperlegible-next-' . $el_team_weight . '.woff2' )
+		);
+	}
+}
+add_action( 'wp_head', 'el_team_preload_fonts', 1 );

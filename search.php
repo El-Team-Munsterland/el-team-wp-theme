@@ -6,7 +6,7 @@
 get_header();
 ?>
 
-<main id="site-content" class="site-main">
+<main id="site-content" class="site-main site-main--list">
 	<header class="page-header">
 		<h1 class="page-title">
 			<?php
