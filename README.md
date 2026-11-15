@@ -55,3 +55,9 @@ Zeitungslogos. Schrift ist Atkinson Hyperlegible Next (SIL Open Font License, im
 `assets/fonts/`, kein fremder Server). Neue Startseite (`front-page.php`) mit Begrüßung,
 Kacheln, neuesten Beiträgen und Presse, einstellbar unter **Design → Startseite**; dort
 entfällt die Beitragsliste im Footer.
+
+Ab 1.9.1 zeigt „Neues aus dem Team“ auf der Startseite alle Beiträge außer reinen
+Presseartikeln (Presse plus z. B. Werkstatt erscheint dort), „Presse“ nur Beiträge, die
+ausschließlich der Presse-Kategorie zugeordnet sind. Presseartikel ohne Zeitungskürzel
+erhalten auf der Startseite und in der Presse-Übersicht das eigene Logo (Website-Icon,
+sonst Logo der Website).

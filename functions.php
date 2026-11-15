@@ -100,6 +100,26 @@ function el_team_presselogo_img( $prefix ) {
 }
 
 /**
+ * Ersatzlogo für Presseartikel ohne Zeitungskürzel: das Website-Icon
+ * (Design → Customizer → Website-Informationen), sonst das Logo der Website.
+ *
+ * @return string HTML, leer wenn beides fehlt
+ */
+function el_team_own_presselogo_img() {
+	$site_icon_id = (int) get_option( 'site_icon' );
+	$logo_id      = (int) get_theme_mod( 'custom_logo' );
+	$image_id     = $site_icon_id ? $site_icon_id : $logo_id;
+	if ( ! $image_id ) {
+		return '';
+	}
+	return wp_get_attachment_image( $image_id, 'thumbnail', false, array(
+		'class'   => 'presselogo presselogo--eigenes',
+		'alt'     => get_bloginfo( 'name' ),
+		'loading' => 'lazy',
+	) );
+}
+
+/**
  * Prüft, ob ein Titel mit einem definierten Präfix beginnt und ersetzt diesen durch ein Logo
  *
  * Erwartet den Titel so, wie er gespeichert ist (mit Präfix), z. B. aus el_team_title_with_presselogo().
@@ -119,11 +139,18 @@ function el_team_replace_title_prefix_with_logo( $title ) {
 /**
  * Titel eines Beitrags mit Logo statt Präfix (für Übersichten und die Beitragsseite).
  *
- * @param int|WP_Post|null $post Beitrag, Standard: aktueller Beitrag
+ * @param int|WP_Post|null $post              Beitrag, Standard: aktueller Beitrag
+ * @param bool             $own_logo_fallback ohne Kürzel das eigene Logo zeigen (el_team_own_presselogo_img)
  * @return string HTML, escaped
  */
-function el_team_title_with_presselogo( $post = null ) {
-	return el_team_replace_title_prefix_with_logo( get_post_field( 'post_title', $post ) );
+function el_team_title_with_presselogo( $post = null, $own_logo_fallback = false ) {
+	$title = get_post_field( 'post_title', $post );
+	$html  = el_team_replace_title_prefix_with_logo( $title );
+	// Ohne Zeitungskürzel: auf Wunsch das eigene Logo (Presse-Übersicht)
+	if ( $own_logo_fallback && null === el_team_split_title_prefix( $title )[0] ) {
+		$html = el_team_own_presselogo_img() . $html;
+	}
+	return $html;
 }
 
 /**

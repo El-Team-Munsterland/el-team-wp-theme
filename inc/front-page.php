@@ -321,44 +321,104 @@ function el_team_front_render_settings_page() {
 }
 
 /**
- * Neueste Beiträge für die Startseite (ohne Presse-Kategorie).
+ * Kategorie-ID der Presse-Kategorie aus Design → Startseite.
+ *
+ * @return int 0, wenn keine gewählt ist
+ */
+function el_team_front_press_cat_id() {
+	$slug     = el_team_front_settings()['press_cat'];
+	$category = '' !== $slug ? get_category_by_slug( $slug ) : false;
+	return $category ? (int) $category->term_id : 0;
+}
+
+/**
+ * Ist ein Beitrag nur der Presse-Kategorie zugeordnet (keiner weiteren Kategorie)?
+ *
+ * @param int|WP_Post $post Beitrag
+ * @return bool
+ */
+function el_team_is_press_only( $post ) {
+	$press_cat_id = el_team_front_press_cat_id();
+	if ( ! $press_cat_id ) {
+		return false;
+	}
+	$categories = wp_get_post_categories( is_object( $post ) ? $post->ID : $post );
+	return array( $press_cat_id ) === array_map( 'intval', $categories );
+}
+
+/**
+ * Neueste Beiträge, die eine Bedingung erfüllen, in Blöcken von 20 gelesen.
+ *
+ * @param array    $args   Abfrage für get_posts (ohne posts_per_page/paged)
+ * @param callable $filter Bedingung je Beitrag
+ * @param int      $count  gewünschte Anzahl
+ * @return WP_Post[]
+ */
+function el_team_front_filtered_posts( $args, $filter, $count ) {
+	$found = array();
+	// Höchstens 10 Blöcke (200 Beiträge) durchsehen, falls passende Beiträge sehr selten sind
+	for ( $page = 1; $page <= 10 && count( $found ) < $count; $page++ ) {
+		$posts = get_posts( array_merge( $args, array(
+			'posts_per_page'      => 20,
+			'paged'               => $page,
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+		) ) );
+		foreach ( $posts as $post ) {
+			if ( $filter( $post ) ) {
+				$found[] = $post;
+				if ( count( $found ) >= $count ) {
+					break;
+				}
+			}
+		}
+		if ( count( $posts ) < 20 ) {
+			break;
+		}
+	}
+	return $found;
+}
+
+/**
+ * Neueste Beiträge für die Startseite: alle außer reinen Presseartikeln.
+ *
+ * Ein Beitrag in Presse und Werkstatt erscheint hier, einer nur in Presse unter „Presse“.
  *
  * @return WP_Post[]
  */
 function el_team_front_news_posts() {
-	$settings = el_team_front_settings();
-	if ( $settings['news_count'] < 1 ) {
+	$count = el_team_front_settings()['news_count'];
+	if ( $count < 1 ) {
 		return array();
 	}
-	$args      = array(
-		'post_type'           => 'post',
-		'posts_per_page'      => $settings['news_count'],
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
+	return el_team_front_filtered_posts(
+		array( 'post_type' => 'post' ),
+		function ( $post ) {
+			return ! el_team_is_press_only( $post );
+		},
+		$count
 	);
-	$press_cat = '' !== $settings['press_cat'] ? get_category_by_slug( $settings['press_cat'] ) : false;
-	if ( $press_cat ) {
-		$args['category__not_in'] = array( $press_cat->term_id );
-	}
-	return get_posts( $args );
 }
 
 /**
- * Neueste Presseartikel für die Startseite.
+ * Neueste Presseartikel für die Startseite: Beiträge, die nur der Presse-Kategorie zugeordnet sind.
  *
  * @return WP_Post[]
  */
 function el_team_front_press_posts() {
-	$settings = el_team_front_settings();
-	if ( $settings['press_count'] < 1 || '' === $settings['press_cat'] ) {
+	$count        = el_team_front_settings()['press_count'];
+	$press_cat_id = el_team_front_press_cat_id();
+	if ( $count < 1 || ! $press_cat_id ) {
 		return array();
 	}
-	return get_posts( array(
-		'post_type'      => 'post',
-		'category_name'  => $settings['press_cat'],
-		'posts_per_page' => $settings['press_count'],
-		'no_found_rows'  => true,
-	) );
+	return el_team_front_filtered_posts(
+		array(
+			'post_type'    => 'post',
+			'category__in' => array( $press_cat_id ),
+		),
+		'el_team_is_press_only',
+		$count
+	);
 }
 
 /**

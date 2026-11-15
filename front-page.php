@@ -96,7 +96,10 @@ get_header();
 						<?php
 						foreach ( $el_team_news as $post ) :
 							setup_postdata( $post );
-							$el_team_categories = get_the_category();
+							// Kategorie für die Zeile über dem Titel: die erste, die nicht Presse ist
+							$el_team_categories = array_values( array_filter( get_the_category(), function ( $category ) {
+								return (int) $category->term_id !== el_team_front_press_cat_id();
+							} ) );
 							?>
 							<a class="front-card" href="<?php the_permalink(); ?>">
 								<?php if ( has_post_thumbnail() ) : ?>
@@ -140,7 +143,8 @@ get_header();
 							?>
 							<li class="front-press__item">
 								<?php
-								$el_team_logo = $el_team_prefix ? el_team_presselogo_img( $el_team_prefix ) : '';
+								// Ohne Zeitungskürzel: eigenes Logo, sonst ein leeres Feld, damit die Titel bündig bleiben
+								$el_team_logo = $el_team_prefix ? el_team_presselogo_img( $el_team_prefix ) : el_team_own_presselogo_img();
 								echo $el_team_logo ? $el_team_logo : '<span class="presselogo presselogo--leer" aria-hidden="true"></span>'; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion.
 								?>
 								<span>

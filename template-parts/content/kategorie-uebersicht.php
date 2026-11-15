@@ -7,11 +7,13 @@
  * Genutzt von page-presse.php, page-werkstatt.php und page-scm.php:
  * get_template_part( 'template-parts/content/kategorie-uebersicht', null, array( 'kategorie' => 'presse', 'bezeichnung' => 'Presse' ) );
  *
- * @var array $args kategorie (Slug), bezeichnung (für den Hinweis ohne Beiträge)
+ * @var array $args kategorie (Slug), bezeichnung (für den Hinweis ohne Beiträge),
+ *                   eigenes_logo (true: Beiträge ohne Zeitungskürzel mit dem eigenen Logo)
  */
 
 $el_team_kategorie   = isset( $args['kategorie'] ) ? $args['kategorie'] : '';
 $el_team_bezeichnung = isset( $args['bezeichnung'] ) ? $args['bezeichnung'] : $el_team_kategorie;
+$el_team_eigenes_logo = ! empty( $args['eigenes_logo'] );
 
 get_header();
 ?>
@@ -57,7 +59,7 @@ get_header();
 					<li class="kategorie-uebersicht__eintrag">
 						<time class="kategorie-uebersicht__datum" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></time>
 						<a href="<?php echo esc_url( get_permalink() ); ?>">
-							<?php echo el_team_title_with_presselogo(); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?>
+							<?php echo el_team_title_with_presselogo( null, $el_team_eigenes_logo ); // phpcs:ignore WordPress.Security.EscapeOutput -- escaped in der Funktion. ?>
 						</a>
 					</li>
 					<?php
