@@ -295,8 +295,9 @@ article:last-child {
 	border-bottom: none;
 }
 
-/* Listen: jeder Beitrag eine Karte */
+/* Listen: jeder Beitrag eine Karte; flow-root hält das schwebende Bild der Suchergebnisse in der Karte */
 .site-main--list article {
+	display: flow-root;
 	background: var(--el-color-surface);
 	border: 0;
 	border-radius: var(--el-radius);
@@ -424,12 +425,6 @@ h2.entry-title {
 
 .search-post-thumbnail a {
 	display: block;
-}
-
-article.search::after {
-	content: '';
-	display: table;
-	clear: both;
 }
 
 /* ------------------------------------------------------------------ Übersichten nach Kategorie
@@ -580,6 +575,7 @@ article.search::after {
 .fahrzeuge-aktiv article,
 .fahrzeuge-archiv article,
 .fahrzeuge-ohne-status article {
+	display: flow-root; /* hält das schwebende Vorschaubild im Eintrag */
 	margin-bottom: 60px;
 }
 

@@ -70,3 +70,6 @@ Ab 1.10 gibt es eine eigene 404-Seite (Suche, Startseite, Kacheln), Seiten mit B
 weiter oder voller Breite (z. B. Schaltpläne) stehen auf einer weißen Fläche über die ganze
 Breite, und die Startseite zeigt mit dem Plugin **El-Team Termine** (Repo WP-Plugins) die
 nächsten Termine.
+
+1.10.1: Vorschaubilder in den Suchergebnissen (und in der Fahrzeugliste ohne Plugin) ragen
+nicht mehr aus ihrer Karte.
